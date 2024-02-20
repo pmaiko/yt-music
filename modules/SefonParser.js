@@ -6,7 +6,11 @@ const domain = 'https://ru.sefon.pro'
 export const sefonParser = async (search) => {
   try {
     //
-    const { data } = await axios.get(`${domain}/search/?q=${encodeURIComponent(search)}`)
+    const { data } = await axios.get(`${domain}/search/?q=${encodeURIComponent(search)}`, {
+      headers: {
+        'Cookie': 'approved=1; authorized=1; kjhagwds=_secure_3vUCAFxiW%2F6kMYhUgTz3exdk6y7Q8ywDaMkGABgRdkmAMOmoMhBXtnzGYHfYYskLerseIbyxzzKm4cgApK0atvz6fHhrgZdIVKNiXPs2QAlmFrUL19LzB5RB%2F4WGOmMdAQWC9%2BXi6Frke%2FFCiSt%2FbOCpMI5q55LfLGHQ2tFjudc5R9wUtQS8PWUPq5RqsWP%2FzsWjTENuy8HEmw%3D%3D; premium=1'
+      }
+    })
     const root = parse(data)
 
     const $blocksMp3 = root.querySelectorAll('.b_list_mp3s .mp3')
