@@ -27,7 +27,7 @@ export const sefonParser = async (search) => {
       }
     }
   } catch (event) {
-    console.log(event)
+    // console.log(event)
     console.log('Error SefonParser')
   }
 }
