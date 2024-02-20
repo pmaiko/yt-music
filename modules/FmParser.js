@@ -20,7 +20,7 @@ export const fmParser = async (search) => {
       return `${domain}/ajax/inc/${sid}`
     }
   } catch (event) {
-    // console.log(event)
+    console.log(event)
     console.log('Error FmParser')
   }
 }
