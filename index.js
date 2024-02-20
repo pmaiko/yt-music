@@ -16,7 +16,7 @@ app.use(express.static('public'))
 app.get('/', async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
   const playlistId = 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh'
-  const perPage = 20
+  const perPage = 3
 
   const { data } = await axios.get(host, {
     params: {
