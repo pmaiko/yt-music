@@ -21,6 +21,6 @@ export const fmParser = async (search) => {
     }
   } catch (event) {
     // console.log(event)
-    console.log('Error FmParser')
+    // console.log('Error FmParser')
   }
 }
