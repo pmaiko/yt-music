@@ -1,9 +1,21 @@
 import axios from 'axios'
 
 import { parse } from 'node-html-parser'
+import { IP2Proxy } from 'ip2proxy-nodejs'
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+let ip2proxy = new IP2Proxy();
 
 const domain = 'https://sefon.pro'
 export const sefonParser = async (search) => {
+  if (ip2proxy.open(resolve(__dirname, '../IP2LOCATION-LITE-DB1.BIN')) === 0) {
+    console.log("GetModuleVersion: " + ip2proxy.getModuleVersion());
+    console.log("GetPackageVersion: " + ip2proxy.getPackageVersion());
+    console.log("GetDatabaseVersion: " + ip2proxy.getDatabaseVersion());
+  }
   try {
     //
     const { data } = await axios.get(`${domain}/search/?q=${encodeURIComponent(search)}`)
