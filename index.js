@@ -2,10 +2,14 @@ import express from 'express'
 import axios from 'axios'
 import { sefonParser } from './modules/SefonParser.js'
 import { fmParser } from './modules/FmParser.js'
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'node:url';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const app = express()
 const port = 3000
-app.set('views', './views')
+app.set('views', resolve(__dirname, './views'))
 app.set('view engine', 'ejs')
 app.use(express.static('public'))
 
