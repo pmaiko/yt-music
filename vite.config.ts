@@ -10,6 +10,7 @@ export default defineConfig({
   plugins: [
     vue()
   ],
+  publicDir: resolve(__dirname, 'public'),
   build: {
     outDir: resolve(__dirname, 'dist')
   }
