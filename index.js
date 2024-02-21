@@ -1,17 +1,16 @@
 import express from 'express'
-import ViteExpress from "vite-express";
+import ViteExpress from 'vite-express'
 import axios from 'axios'
 import ytdl from 'ytdl-core'
 import { sefonParser } from './modules/SefonParser.js'
 import { fmParser } from './modules/FmParser.js'
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'node:url';
+import { resolve, dirname } from 'path'
+import { fileURLToPath } from 'node:url'
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+const __dirname = dirname(fileURLToPath(import.meta.url))
 
 if (process.env.NODE_ENV === 'production') {
   ViteExpress.config({ mode: process.env.NODE_ENV })
-  ViteExpress.build();
 }
 
 const app = express()
@@ -39,8 +38,8 @@ app.get('/api', async (req, res) => {
       const title = item.snippet.title
       const description = item.snippet.description
 
-      let info = await ytdl.getInfo(videoId);
-      let format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' });
+      let info = await ytdl.getInfo(videoId)
+      let format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' })
 
       const searchStr1 = (`${videoOwnerChannelTitle} ${title}`).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
       const searchStr2 = (title).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
