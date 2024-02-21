@@ -16,7 +16,6 @@ if (process.env.NODE_ENV === 'production') {
 const app = express()
 const port = 3000
 
-app.use(express.static(resolve(__dirname, 'public')))
 app.use(express.static(resolve(__dirname, 'dist')))
 app.get('/api', async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
