@@ -1,5 +1,6 @@
 import express from 'express'
 import axios from 'axios'
+import ytdl from 'ytdl-core'
 import { sefonParser } from './modules/SefonParser.js'
 import { fmParser } from './modules/FmParser.js'
 import { resolve, dirname } from 'path';
@@ -16,7 +17,7 @@ app.use(express.static('public'))
 app.get('/', async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
   const playlistId = 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh'
-  const perPage = 3
+  const perPage = 10
 
   const { data } = await axios.get(host, {
     params: {
@@ -35,11 +36,11 @@ app.get('/', async (req, res) => {
       const title = item.snippet.title
       const description = item.snippet.description
 
+      let info = await ytdl.getInfo(videoId);
+      let format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' });
+
       const searchStr1 = (`${videoOwnerChannelTitle} ${title}`).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
       const searchStr2 = (title).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
-
-      const sefonMp3 = await sefonParser(searchStr1) || await sefonParser(searchStr2)
-      const fmMp3 = sefonMp3 || await fmParser(searchStr1) || await fmParser(searchStr2)
 
       return {
         id: item.id,
@@ -47,9 +48,13 @@ app.get('/', async (req, res) => {
         videoId: videoId,
         title: title,
         description: addThreeDots(description),
-        image: item.snippet.thumbnails.default.url,
+        image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url,
         saveFrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
-        mp3: sefonMp3 || fmMp3
+        sefonSearchLink1: await sefonParser(searchStr1),
+        sefonSearchLink2: await sefonParser(searchStr2),
+        fmSearchLink1: await fmParser(searchStr1),
+        fmSearchLink2: await fmParser(searchStr2),
+        audio: format.url
       }
     }))
 

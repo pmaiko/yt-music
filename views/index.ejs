@@ -23,9 +23,9 @@
             <img src="<%= items[i].image %>" alt="">
             <a href="<%= items[i].saveFrom %>" target="_blank">SaveFrom</a>
 
-            <% if (items[i].mp3) { %>
-                <a href="<%= items[i].mp3 %>" target="_blank">mp3</a>
-                <audio controls src="<%= items[i].mp3 %>"></audio>
+            <% if (items[i].audio) { %>
+                <a href="<%= items[i].audio %>" target="_blank">Audio</a>
+                <audio controls src="<%= items[i].audio %>"></audio>
             <% } %>
         </div>
     <% } %>

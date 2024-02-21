@@ -5,6 +5,7 @@ import { parse } from 'node-html-parser'
 const domain = 'https://z3.fm'
 export const fmParser = async (search) => {
   try {
+    return `${domain}/mp3/search?keywords=${encodeURIComponent(search)}`
     const response = await axios.get(`${domain}`)
     const cookies = response.headers['set-cookie']
     const { data } = await axios.get(`${domain}/mp3/search?keywords=${encodeURIComponent(search)}`, {
@@ -20,7 +21,6 @@ export const fmParser = async (search) => {
       return `${domain}/ajax/inc/${sid}`
     }
   } catch (event) {
-    // console.log(event)
-    // console.log('Error FmParser')
+    console.log('Error FmParser')
   }
 }
