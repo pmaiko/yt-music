@@ -1,3 +1,8 @@
 import ViteExpress from 'vite-express'
-ViteExpress.config({ mode: process.env.NODE_ENV })
+ViteExpress.config({
+  mode: 'production',
+  inlineViteConfig: {
+    base: '/'
+  }
+})
 ViteExpress.build()

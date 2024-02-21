@@ -7,7 +7,7 @@
   "scripts": {
     "dev": "node index.js",
     "start": "NODE_ENV=production node index.js",
-    "build": "NODE_ENV=production node build.js",
+    "build": "node build.js",
     "builded": "vue-tsc && vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
