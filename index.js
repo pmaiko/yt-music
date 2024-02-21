@@ -12,7 +12,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
 const port = 3000
 
-app.use(express.static('dist'))
+app.use(express.static('public'))
 app.get('/api', async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
   const playlistId = 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh'
