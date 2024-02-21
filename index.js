@@ -9,10 +9,14 @@ import { fileURLToPath } from 'node:url'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
+if (process.env.NODE_ENV === 'production') {
+  ViteExpress.config({ mode: process.env.NODE_ENV })
+}
+
 const app = express()
 const port = 3000
+app.use(ViteExpress.static(resolve(__dirname, './dist')))
 
-app.use(express.static(resolve(__dirname, 'public')))
 app.get('/api', async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
   const playlistId = 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh'
@@ -61,7 +65,7 @@ app.get('/api', async (req, res) => {
   }
 })
 
-app.listen(port, () => {
+ViteExpress.listen(app, port, () => {
   console.log(`App listening on port http://localhost:${port}`)
 })
 
