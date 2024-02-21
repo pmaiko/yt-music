@@ -19,8 +19,8 @@
     "express": "^4.18.2",
     "fluent-ffmpeg": "^2.1.2",
     "googleapis": "^131.0.0",
+    "https-proxy-agent": "^7.0.4",
     "node-html-parser": "^6.1.12",
-    "node-vpn-manager": "^0.0.15",
     "ytdl-core": "^4.11.5"
   },
   "devDependencies": {

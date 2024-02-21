@@ -1,12 +1,24 @@
 import axios from 'axios'
 
 import { parse } from 'node-html-parser'
-
+// import { HttpsProxyAgent } from 'https-proxy-agent'
+// const proxy = 'http://locahost:80';
+// const agent = new HttpsProxyAgent(proxy);
 const domain = 'https://ru.sefon.pro'
+
+const axiosInstance = axios.create({
+  // httpsAgent: agent,
+});
+
 export const sefonParser = async (search) => {
   try {
     //
-    const { data } = await axios.get(`${domain}/search/?q=${encodeURIComponent(search)}`)
+    console.log(`${domain}/search/?q=${encodeURIComponent(search)}`)
+    const { data } = await axiosInstance.get(`${domain}/search/?q=${encodeURIComponent(search)}`, {
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+      }
+    })
     const root = parse(data)
 
     const $blocksMp3 = root.querySelectorAll('.b_list_mp3s .mp3')
@@ -16,7 +28,11 @@ export const sefonParser = async (search) => {
     if (href) {
       const detailUrl = `${domain}${href}`
 
-      const { data } = await axios.get(detailUrl)
+      const { data } = await axiosInstance.get(detailUrl, {
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
+        }
+      })
       const root = parse(data)
       const hrefAttribute = root.querySelector('.b_song_info .main .b_btn.download')?.getAttribute('href')
       const keysAttribute = root.querySelector('.b_song_info .main .b_btn.download')?.getAttribute('data-key')
