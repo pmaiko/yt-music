@@ -61,7 +61,7 @@ app.get('/api', async (req, res) => {
   }
 })
 
-ViteExpress.listen(app, port, () => {
+app.listen(port, () => {
   console.log(`App listening on port http://localhost:${port}`)
 })
 
