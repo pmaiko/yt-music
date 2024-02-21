@@ -5,8 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.ts",
-    "start": "node index.ts",
+    "dev": "node index.js",
+    "start": "NODE_ENV=production node index.js",
     "build": "vue-tsc && vite build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,12 +18,11 @@
     "axios": "^1.6.7",
     "ejs": "^3.1.9",
     "express": "^4.18.2",
-    "express-manifest-helpers": "^0.6.0",
     "fluent-ffmpeg": "^2.1.2",
     "googleapis": "^131.0.0",
     "https-proxy-agent": "^7.0.4",
-    "laravel-vite-plugin": "^1.0.1",
     "node-html-parser": "^6.1.12",
+    "typescript": "^5.3.3",
     "vite-express": "^0.15.0",
     "vue": "^3.4.19",
     "ytdl-core": "^4.11.5"
@@ -32,7 +31,6 @@
     "@vitejs/plugin-vue": "^5.0.4",
     "eslint": "^8.56.0",
     "nodemon": "^3.0.3",
-    "typescript": "^5.2.2",
     "vite": "^5.1.4",
     "vue-tsc": "^1.8.27"
   }
