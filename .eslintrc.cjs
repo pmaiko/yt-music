@@ -26,6 +26,8 @@ module.exports = {
         "semi": ["error", "never"]
     },
     "globals": {
-        process: true
+        process: true,
+        global: true,
+        __dirname: true
     }
 }

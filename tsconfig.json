@@ -1,4 +1,7 @@
 {
+  "scriptSetup": {
+    "module": "es2020",
+  },
   "compilerOptions": {
     "esModuleInterop": true,
     "target": "ES2020",
@@ -6,7 +9,6 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
-
     /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
@@ -23,6 +25,7 @@
   },
   "include": [
     "frontend/**/*.ts",
+    "frontend/**/*.d.ts",
     "frontend/**/*.tsx",
     "frontend/**/*.vue"
   ],
