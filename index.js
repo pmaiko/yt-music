@@ -6,7 +6,7 @@ import { sefonParser } from './server/modules/SefonParser.js'
 import { fmParser } from './server/modules/FmParser.js'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'node:url'
-import config from './vite.config.js'
+import { config } from './vite.config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
