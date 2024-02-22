@@ -25,8 +25,15 @@ export const musicController = async (req, res) => {
       const title = item.snippet.title
       const description = item.snippet.description
 
-      let info = await ytdl.getInfo(videoId)
-      let format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' })
+      let audioURL = null
+
+      try {
+        const info = await ytdl.getInfo(videoId)
+        const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' })
+        audioURL = format.url
+      } catch (event) {
+        console.error('Error chooseFormat')
+      }
 
       const searchStr1 = (`${videoOwnerChannelTitle} ${title}`).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
       const searchStr2 = (title).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
@@ -38,12 +45,19 @@ export const musicController = async (req, res) => {
         title: title,
         description: addThreeDots(description),
         image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url,
-        saveFrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
-        sefonSearchLink1: await sefonParser(searchStr1),
-        sefonSearchLink2: await sefonParser(searchStr2),
-        fmSearchLink1: await fmParser(searchStr1),
-        fmSearchLink2: await fmParser(searchStr2),
-        audio: format.url
+        audioURL,
+
+        search: {
+          savefrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
+          sefon: [
+            await sefonParser(searchStr1),
+            await sefonParser(searchStr2)
+          ],
+          fm: [
+            await fmParser(searchStr1),
+            await fmParser(searchStr2)
+          ]
+        }
       }
     }))
   }
