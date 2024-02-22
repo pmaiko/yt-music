@@ -6,7 +6,7 @@ import { sefonParser } from './server/modules/SefonParser.js'
 import { fmParser } from './server/modules/FmParser.js'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'node:url'
-import { config } from './vite.config.js'
+// import { config } from './vite.config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const app = express()
@@ -15,8 +15,8 @@ if (process.env.NODE_ENV === 'production') {
   ViteExpress.config({
     mode: process.env.NODE_ENV
   })
-  app.use(express.static(resolve(__dirname, config.build.outDir)))
-  app.use(express.static(resolve(__dirname, config.publicDir)))
+  app.use(express.static(resolve(__dirname, 'build')))
+  app.use(express.static(resolve(__dirname, 'static')))
 }
 
 app.get('/api', async (req, res) => {
