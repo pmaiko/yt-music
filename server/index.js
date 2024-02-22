@@ -6,17 +6,17 @@ import { sefonParser } from './modules/SefonParser.js'
 import { fmParser } from './modules/FmParser.js'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'node:url'
+import config from '../vite.config.js'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
-
 const app = express()
 const port = 3000
-
 if (process.env.NODE_ENV === 'production') {
   ViteExpress.config({
     mode: process.env.NODE_ENV
   })
-  app.use(express.static(resolve(__dirname, 'dist')))
+  app.use(express.static(resolve(__dirname, config.build.outDir)))
+  app.use(express.static(resolve(__dirname, config.publicDir)))
 }
 
 app.get('/api', async (req, res) => {
