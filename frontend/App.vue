@@ -29,6 +29,10 @@
 <script setup lang="ts">
   import MusicPage from '~/components/pages/MusicPage.vue'
   import '~/modules/utils.ts'
+
+  onMounted(() => {
+    console.log('App')
+  })
 </script>
 
 <style lang="scss">
