@@ -1,7 +1,4 @@
 {
-  "scriptSetup": {
-    "module": "es2020",
-  },
   "compilerOptions": {
     "esModuleInterop": true,
     "target": "ES2020",

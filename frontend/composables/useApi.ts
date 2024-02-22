@@ -5,6 +5,6 @@ const axios = http.create({
 })
 
 export const useApi = async () => {
-  const data = await axios.get('/music')
+  const { data } = await axios.get<[]>('/music')
   console.log(data)
 }
