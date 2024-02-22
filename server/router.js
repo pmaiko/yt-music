@@ -1,8 +1,8 @@
-import { getListController } from './controllers/getListController.js'
+import { musicController } from './controllers/musicController.js'
 import express from 'express'
 
 const apiRouter = express.Router()
 
-apiRouter.get('/get-list', getListController)
+apiRouter.get('/music', musicController)
 
 export default apiRouter

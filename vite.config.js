@@ -46,5 +46,12 @@ export default defineConfig({
       '@': '/frontend',
     }
   },
-  publicDir: 'static'
+  publicDir: 'static',
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: '@import "~/assets/sass/global.scss";'
+      }
+    }
+  }
 })

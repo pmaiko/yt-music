@@ -3,7 +3,7 @@ import ytdl from 'ytdl-core'
 import { sefonParser } from '../modules/SefonParser.js'
 import { fmParser } from '../modules/FmParser.js'
 
-export const getListController = async (req, res) => {
+export const musicController = async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
   const playlistId = 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh'
   const perPage = 10

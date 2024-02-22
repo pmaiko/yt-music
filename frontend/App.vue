@@ -30,6 +30,7 @@
   import MusicPage from '~/components/pages/MusicPage.vue'
   import '~/modules/utils.ts'
 
+  useApi()
   onMounted(() => {
     console.log('App')
   })
