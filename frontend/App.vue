@@ -20,20 +20,17 @@
         alt="Vue logo"
       >
     </a>
-    <MusicPage
-      title="MusicPage"
-    />
+    <Suspense>
+      <MusicPage
+        title="MusicPage"
+      />
+    </Suspense>
   </div>
 </template>
 
 <script setup lang="ts">
   import MusicPage from '~/components/pages/MusicPage.vue'
   import '~/modules/utils.ts'
-
-  useApi()
-  onMounted(() => {
-    console.log('App')
-  })
 </script>
 
 <style lang="scss">

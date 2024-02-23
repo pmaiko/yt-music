@@ -13,7 +13,7 @@ export default defineConfig({
       eslint: {
         lintCommand: 'eslint "./frontend/**/*.{ts,tsx,vue}"'
       },
-      typescript: true,
+      vueTsc: true
     }),
     AutoImport({
       include: [
