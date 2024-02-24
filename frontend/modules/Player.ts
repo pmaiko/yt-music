@@ -15,10 +15,22 @@ export class Player {
   private playingAudio: AudioData | null = null
   private onChangeStatus: (status: Status) => void
 
-  constructor(playlist: Array<AudioData>, onChangeStatus: (status: Status) => void) {
+  constructor(playlist: Array<AudioData>, audio: HTMLAudioElement, onChangeStatus: (status: Status) => void) {
     this.playlist = playlist
-    this.audio = new Audio()
+    this.audio = audio
     this.onChangeStatus = onChangeStatus
+
+    this.audio.addEventListener('ended', () => {
+      const currentTrackIndex = this.playlist.findIndex(item => item.id === this.playingAudio?.id)
+      const nextTrackIndex = (currentTrackIndex + 1) % this.playlist.length
+      const nextAudioData = this.playlist[nextTrackIndex]
+
+      if (nextAudioData) {
+        this.play(nextAudioData)
+      }
+
+      this.changeStatus({ message: 'Audio ended' })
+    })
   }
 
   play (audioData: AudioData) {
@@ -38,20 +50,6 @@ export class Player {
     this.playingAudio = audioData
 
     this.changeStatus()
-
-    this.audio.addEventListener('ended', () => {
-      const currentAudioDataIndex = this.playlist.findIndex(item => item.id === this.playingAudio?.id)
-      console.log(currentAudioDataIndex)
-      console.log(currentAudioDataIndex + 1)
-      console.log(this.playlist)
-      const nextAudioData = this.playlist[currentAudioDataIndex + 1]
-
-      if (nextAudioData) {
-        this.play(nextAudioData)
-      }
-
-      this.changeStatus({ message: 'Audio ended' })
-    })
   }
 
   changeStatus ({ message }: { message?: string } = {}) {
@@ -63,5 +61,11 @@ export class Player {
 
     this.onChangeStatus(status)
     return status
+  }
+
+  destroy () {
+    this.audio.pause()
+    this.audio = new Audio()
+    this.playingAudio = null
   }
 }

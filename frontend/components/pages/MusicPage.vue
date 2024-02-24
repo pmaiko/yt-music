@@ -4,6 +4,18 @@
       v-if="state.items && !state.loading"
       class="music-page__list"
     >
+      <audio
+        ref="audioRef"
+        id="audioPlayer"
+        controls
+      >
+        <source
+          v-for="item in playlist"
+          :key="item.id"
+          :src="item.src"
+          type="audio/webm"
+        >
+      </audio>
       <div
         v-for="item in state.items"
         :key="item.id"
@@ -19,7 +31,7 @@
             src: item.audioURL
           })"
         >
-          {{ playerStatus?.playingAudio?.id === item.id && !playerStatus?.paused ? 'Pause' : 'Play' }}
+          {{ state.playerStatus?.playingAudio?.id === item.id && !state.playerStatus?.paused ? 'Pause' : 'Play' }}
         </div>
       </div>
     </div>
@@ -36,12 +48,29 @@
   import MusicCard from '~/components/MusicCard.vue'
   import { Player, AudioData, Status } from '~/modules/Player.ts'
 
+  const audioRef = ref<HTMLAudioElement | null>(null)
+
   const state = reactive<{
     items: [MusicItem] | null,
-    loading: boolean
+    loading: boolean,
+    playerStatus: Status | null
   }>({
     items: null,
-    loading: true
+    loading: true,
+    playerStatus: null
+  })
+
+  let player: InstanceType<typeof Player> | null = null
+
+  const playlist: ComputedRef<Array<AudioData>> = computed(() => {
+    return state.items
+      ?.filter(item => item.audioURL)
+      ?.map(item => {
+        return {
+          id: item.id,
+          src: item.audioURL || ''
+        }
+      }) || []
   })
 
   const fetchMusic = async () => {
@@ -59,27 +88,20 @@
   onMounted(async () => {
     await fetchMusic()
 
-    state.items?.forEach((item) => {
-      if (item.audioURL) {
-        playlist.push({
-          id: item.id,
-          src: item.audioURL
-        })
-      }
-    })
+    if (audioRef.value) {
+      player = new Player(playlist.value, audioRef.value, onChangeStatus)
+    }
+  })
 
-    player = new Player(playlist, onChangeStatus)
+  onBeforeUnmount(() => {
+    player?.destroy()
   })
 
   const onPlay = (audioData: AudioData) => {
-    player.play(audioData)
+    player?.play(audioData)
   }
 
-  const playerStatus = ref<Status | null>(null)
   const onChangeStatus = (status: Status) => {
-    playerStatus.value = status
+    state.playerStatus = status
   }
-
-  const playlist: Array<AudioData> = []
-  let player = new Player(playlist, onChangeStatus)
 </script>
