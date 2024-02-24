@@ -91,10 +91,10 @@ export const getAudioURL  = async (req, res) => {
     })
     readable.on('data', () => {})
 
-    res.setTimeout(5000, () => {
+    setTimeout(() => {
       console.log('Timeout reached. Closing connection.')
       res.end()
-    })
+    }, 5000)
 
     ffmpeg()
       .input(readable)
