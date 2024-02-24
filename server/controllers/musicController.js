@@ -91,7 +91,7 @@ export const getAudioURL  = async (req, res) => {
     })
     readable.on('data', () => {})
 
-    res.setTimeout(9000, () => {
+    res.setTimeout(5000, () => {
       console.log('Timeout reached. Closing connection.')
       res.end()
     })
