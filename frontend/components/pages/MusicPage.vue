@@ -9,7 +9,18 @@
         :key="item.id"
         class="music-page__list-item"
       >
-        <MusicCard v-bind="item" />
+        <MusicCard
+          v-bind="item"
+        />
+        <div
+          v-if="item.audioURL"
+          @click="onPlay({
+            id: item.id,
+            src: item.audioURL
+          })"
+        >
+          {{ playerStatus?.playingAudio?.id === item.id && !playerStatus?.paused ? 'Pause' : 'Play' }}
+        </div>
       </div>
     </div>
     <div v-else-if="state.loading">
@@ -23,7 +34,7 @@
 <script setup lang="ts">
   import { MusicItem } from '~/types'
   import MusicCard from '~/components/MusicCard.vue'
-  import { Player, Playlist } from '~/modules/Player.ts'
+  import { Player, AudioData, Status } from '~/modules/Player.ts'
 
   const state = reactive<{
     items: [MusicItem] | null,
@@ -32,8 +43,6 @@
     items: null,
     loading: true
   })
-
-  const playlist: Array<Playlist> = []
 
   const fetchMusic = async () => {
     try {
@@ -59,6 +68,18 @@
       }
     })
 
-    new Player(playlist)
+    player = new Player(playlist, onChangeStatus)
   })
+
+  const onPlay = (audioData: AudioData) => {
+    player.play(audioData)
+  }
+
+  const playerStatus = ref<Status | null>(null)
+  const onChangeStatus = (status: Status) => {
+    playerStatus.value = status
+  }
+
+  const playlist: Array<AudioData> = []
+  let player = new Player(playlist, onChangeStatus)
 </script>
