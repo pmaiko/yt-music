@@ -91,6 +91,11 @@ export const getAudioURL  = async (req, res) => {
     })
     readable.on('data', () => {})
 
+    res.setTimeout(9000, () => {
+      console.log('Timeout reached. Closing connection.')
+      res.end()
+    })
+
     ffmpeg()
       .input(readable)
       .audioCodec('libmp3lame')
