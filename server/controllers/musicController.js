@@ -76,14 +76,15 @@ export const getAudioURL  = async (req, res) => {
 
   try {
     const info = await ytdl.getInfo(videoId)
-    // const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' })
+    const format = ytdl.chooseFormat(info.formats, { quality: 'highestaudio' })
     const title = info.videoDetails.title
     // const lengthSeconds = info.videoDetails.lengthSeconds
-    // const contentLength = format.contentLength
+    const contentLength = format.contentLength
     const sanitizedTitle = encodeURIComponent(title)
     res.setHeader('Content-Type', 'audio/mpeg')
-    res.setHeader('Transfer-Encoding', 'chunked')
+    // res.setHeader('Transfer-Encoding', 'chunked')
     res.setHeader('Content-Disposition', `attachment; filename=${sanitizedTitle}.mp3`)
+    res.setHeader('Content-Length', contentLength)
 
     const readable = ytdl(videoId, {quality: 'highestaudio'})
     readable.on('progress', () => {
