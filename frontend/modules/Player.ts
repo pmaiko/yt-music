@@ -23,13 +23,14 @@ export class Player {
 
   play (audioData: AudioData) {
     if (this.playingAudio?.id === audioData.id && !this.audio.paused) {
-      this.audio.pause()
-      this.changeStatus({ message: 'Audio paused' })
-      return
-    } else if (this.audio.paused) {
-      this.audio.play()
-      this.changeStatus({ message: 'Audio play again' })
-      return
+      if (this.audio.paused) {
+        this.audio.play()
+        this.changeStatus({ message: 'Audio play again' })
+      } else {
+        this.audio.pause()
+        this.changeStatus({ message: 'Audio paused' })
+      }
+      return null
     }
 
     this.audio.src = audioData.src
