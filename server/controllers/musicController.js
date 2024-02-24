@@ -101,7 +101,6 @@ export const getAudioURL  = async (req, res) => {
       })
       .on('error', (err) => {
         console.error('Error:', err)
-        res.status(500).send('Internal Server Error')
       })
       .pipe(res, { end: true })
 
