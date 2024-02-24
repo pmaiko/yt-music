@@ -82,16 +82,18 @@ export const getAudioURL  = async (req, res) => {
     const contentLength = format.contentLength
     const sanitizedTitle = encodeURIComponent(title)
     res.setHeader('Content-Type', 'audio/mpeg')
-    // res.setHeader('Transfer-Encoding', 'chunked')
+    res.setHeader('Transfer-Encoding', 'chunked')
     res.setHeader('Content-Disposition', `attachment; filename=${sanitizedTitle}.mp3`)
-    res.setHeader('Content-Length', contentLength)
+    // res.setHeader('Content-Length', contentLength)
 
     const readable = ytdl(videoId, {quality: 'highestaudio'})
     readable.on('progress', () => {
     })
     readable.on('data', () => {})
 
-    ffmpeg(readable)
+    ffmpeg()
+      .input(readable)
+      .audioCodec('libmp3lame')
       .toFormat('mp3')
       .on('end', () => {
         console.log(`Conversion of ${title} finished`)
