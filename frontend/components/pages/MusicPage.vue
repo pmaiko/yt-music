@@ -115,7 +115,7 @@
       return data
     }
 
-    fetchAudio(audioData.audioURL)
+    fetchAudio(audioData.audioApiURL)
   }
 
   const onChangeStatus = (status: Status) => {
