@@ -1,4 +1,3 @@
-import { AxiosInstance } from 'axios'
 import { AudioData } from '~/types.ts'
 
 export interface Status {
@@ -8,14 +7,12 @@ export interface Status {
 }
 
 export class Player {
-  private axios: AxiosInstance
   private playlist: Array<AudioData>
   private audio: HTMLAudioElement
   private playingAudio: AudioData | null = null
   private onChangeStatus: (status: Status) => void
 
-  constructor(axios: AxiosInstance, playlist: Array<AudioData>, audio: HTMLAudioElement, onChangeStatus: (status: Status) => void) {
-    this.axios = axios
+  constructor(playlist: Array<AudioData>, audio: HTMLAudioElement, onChangeStatus: (status: Status) => void) {
     this.playlist = playlist
     this.audio = audio
     this.onChangeStatus = onChangeStatus
@@ -50,16 +47,6 @@ export class Player {
     this.playingAudio = audioData
 
     this.changeStatus()
-
-    this.fetchAudio(audioData.audioApiURL)
-  }
-
-  async fetchAudio (url: string, params?: any) {
-    const { data } = await this.axios.get(url, {
-      responseType: 'arraybuffer',
-      params
-    })
-    return data
   }
 
   changeStatus ({ message }: { message?: string } = {}) {

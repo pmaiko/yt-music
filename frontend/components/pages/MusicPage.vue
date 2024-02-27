@@ -30,6 +30,12 @@
         >
           {{ state.playerStatus?.playingAudio?.id === item.id && !state.playerStatus?.paused ? 'Pause' : 'Play' }}
         </div>
+        <div
+          class="load"
+          @click="onLoad(item.audioData)"
+        >
+          Load
+        </div>
       </div>
     </div>
     <div v-else-if="state.loading">
@@ -88,7 +94,7 @@
     await fetchMusic()
 
     if (audioRef.value) {
-      player = new Player(useApi().axios, playlist.value, audioRef.value, onChangeStatus)
+      player = new Player(playlist.value, audioRef.value, onChangeStatus)
     }
   })
 
@@ -98,6 +104,18 @@
 
   const onPlay = (audioData: AudioData) => {
     player?.play(audioData)
+  }
+
+  const onLoad = (audioData: AudioData) => {
+    const fetchAudio = async (url: string, params?: any) => {
+      const { data } = await useApi().axios.get(url, {
+        responseType: 'arraybuffer',
+        params
+      })
+      return data
+    }
+
+    fetchAudio(audioData.audioURL)
   }
 
   const onChangeStatus = (status: Status) => {
