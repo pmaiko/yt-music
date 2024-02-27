@@ -1,5 +1,6 @@
 export interface AudioData {
   id: string,
+  audioURL: string,
   audioApiURL: string,
   contentLength: number
 }

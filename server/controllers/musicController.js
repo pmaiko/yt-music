@@ -57,6 +57,7 @@ export const musicController = async (req, res) => {
         image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url,
         audioData: {
           id: item.id,
+          audioURL: `/${videoId}.mp3`,
           audioApiURL: `/yt-video/${videoId}`,
           contentLength: +format?.contentLength
         },

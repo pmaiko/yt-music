@@ -11,7 +11,6 @@ export class Player {
   private axios: AxiosInstance
   private playlist: Array<AudioData>
   private audio: HTMLAudioElement
-  private mediaSource: MediaSource
   private playingAudio: AudioData | null = null
   private onChangeStatus: (status: Status) => void
 
@@ -19,7 +18,6 @@ export class Player {
     this.axios = axios
     this.playlist = playlist
     this.audio = audio
-    this.mediaSource = new MediaSource()
     this.onChangeStatus = onChangeStatus
 
     this.audio.addEventListener('ended', () => {
@@ -47,67 +45,13 @@ export class Player {
       return null
     }
 
+    this.audio.src = audioData.audioURL
+    this.audio.play()
     this.playingAudio = audioData
-    this.mediaSource = new MediaSource()
-    this.mediaSource.addEventListener('sourceopen', this.sourceOpen)
-    this.audio.src = URL.createObjectURL(this.mediaSource)
-
-    // this.audio.src = audioData.src
-    // this.audio.play()
-    // this.playingAudio = audioData
 
     this.changeStatus()
-  }
 
-  sourceOpen = async () => {
-    const sourceBuffer = this.mediaSource.addSourceBuffer('audio/mpeg')
-    // const sourceBuffer = this.mediaSource.addSourceBuffer('audio/webm; codecs="opus"')
-
-    const step = 100000 / 10 // 100 килобай
-    const contentLength = this.playingAudio?.contentLength || 0
-    const count = Math.ceil(contentLength / step)
-    const ranges: Array<{ start: number, end: number }> = []
-    for (let i = 0; i < count; i++) {
-      const start = i * step
-      const end = Math.min((i + 1) * step - 1, contentLength)
-
-      ranges.push({
-        start,
-        end
-      })
-    }
-
-    let chunkNumber = 0
-    const read = async (params?: any) => {
-      if (this.playingAudio?.audioApiURL) {
-        const buffer = await this.fetchAudio(this.playingAudio?.audioApiURL, params)
-        chunkNumber++
-
-        sourceBuffer.addEventListener('updateend', () => {
-          console.log('updateend')
-          if (!this.mediaSource.endOfStream) {
-            this.mediaSource.endOfStream()
-          }
-        })
-
-        sourceBuffer.appendBuffer(buffer)
-        console.log(1)
-        this.audio.play()
-
-        console.log('before setTimeout')
-        setTimeout(() => {
-          read({
-            ...(ranges[chunkNumber] || {}),
-            prevStart: ranges[chunkNumber -1]?.start,
-            prevEnd: ranges[chunkNumber -1]?.end
-          })
-        }, 1000)
-      }
-    }
-
-    read({
-      ...(ranges[chunkNumber] || {})
-    })
+    this.fetchAudio(audioData.audioApiURL)
   }
 
   async fetchAudio (url: string, params?: any) {
