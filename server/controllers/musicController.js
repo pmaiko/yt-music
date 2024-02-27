@@ -113,7 +113,8 @@ export const getAudioURL  = async (req, res) => {
     // readable.push(audioReadable)
     // readable.push(null)
 
-    const filestream = fs.createWriteStream(resolve(__dirname, `/tmp/${videoId}.mp3`))
+    console.log(resolve(__dirname, process.env.NODE_ENV === 'production' ? `/tmp/${videoId}.mp3` : `../tmp/${videoId}.mp3`))
+    const filestream = fs.createWriteStream(resolve(__dirname, process.env.NODE_ENV === 'production' ? `/tmp/${videoId}.mp3` : `../tmp/${videoId}.mp3`))
     const fileUrl = `${videoId}.mp3`
     ffmpeg()
       .input(audioReadable)
