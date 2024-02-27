@@ -8,6 +8,8 @@ import fs from 'fs'
 // import path from 'path'
 import { sefonParser } from '../modules/SefonParser.js'
 import { fmParser } from '../modules/FmParser.js'
+import express from 'express'
+import { resolve } from 'path'
 ffmpeg.setFfmpegPath(ffmpegPath.path)
 
 export const musicController = async (req, res) => {
@@ -111,7 +113,7 @@ export const getAudioURL  = async (req, res) => {
     // readable.push(audioReadable)
     // readable.push(null)
 
-    const filestream = fs.createWriteStream(`tmp/${videoId}.mp3`)
+    const filestream = fs.createWriteStream(resolve(__dirname, `../tmp/${videoId}.mp3`))
     const fileUrl = `${videoId}.mp3`
     ffmpeg()
       .input(audioReadable)
