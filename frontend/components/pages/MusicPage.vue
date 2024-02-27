@@ -71,7 +71,7 @@
       ?.map(item => {
         return {
           id: item.id,
-          audioURL: item.audioData.audioApiURL || '',
+          audioURL: item.audioData.audioURL || '',
           audioApiURL: item.audioData.audioApiURL || '',
           contentLength: item.audioData.contentLength
         }
