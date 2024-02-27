@@ -9,12 +9,12 @@
         id="audioPlayer"
         controls
       >
-        <source
-          v-for="item in playlist"
-          :key="item.id"
-          :src="item.src"
-          type="audio/webm"
-        >
+        <!--<source-->
+        <!--  v-for="item in playlist"-->
+        <!--  :key="item.id"-->
+        <!--  :src="item.src"-->
+        <!--  type="audio/webm"-->
+        <!--&gt;-->
       </audio>
       <div
         v-for="item in state.items"
@@ -25,11 +25,8 @@
           v-bind="item"
         />
         <div
-          v-if="item.audioURL"
-          @click="onPlay({
-            id: item.id,
-            src: item.audioURL
-          })"
+          v-if="item.audioData.audioApiURL"
+          @click="onPlay(item.audioData)"
         >
           {{ state.playerStatus?.playingAudio?.id === item.id && !state.playerStatus?.paused ? 'Pause' : 'Play' }}
         </div>
@@ -44,9 +41,9 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { MusicItem } from '~/types'
+  import { MusicItem, AudioData } from '~/types'
   import MusicCard from '~/components/MusicCard.vue'
-  import { Player, AudioData, Status } from '~/modules/Player.ts'
+  import { Player, Status } from '~/modules/Player.ts'
 
   const audioRef = ref<HTMLAudioElement | null>(null)
 
@@ -64,11 +61,12 @@
 
   const playlist: ComputedRef<Array<AudioData>> = computed(() => {
     return state.items
-      ?.filter(item => item.audioURL)
+      ?.filter(item => item.audioData.audioApiURL)
       ?.map(item => {
         return {
           id: item.id,
-          src: item.audioURL || ''
+          audioApiURL: item.audioData.audioApiURL || '',
+          contentLength: item.audioData.contentLength
         }
       }) || []
   })
@@ -89,7 +87,7 @@
     await fetchMusic()
 
     if (audioRef.value) {
-      player = new Player(playlist.value, audioRef.value, onChangeStatus)
+      player = new Player(useApi().axios, playlist.value, audioRef.value, onChangeStatus)
     }
   })
 

@@ -108,6 +108,7 @@ module.exports = {
     "globals": {
         process: true,
         global: true,
-        __dirname: true
+        __dirname: true,
+        Buffer: true
     }
 }

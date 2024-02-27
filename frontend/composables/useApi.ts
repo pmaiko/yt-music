@@ -12,6 +12,7 @@ export const useApi = () => {
   }
 
   return {
-    getMusic
+    getMusic,
+    axios
   }
 }
