@@ -1,6 +1,6 @@
 # Logs
 .idea
-static/*.mp3
+tmp/*.mp3
 logs
 *.log
 npm-debug.log*
