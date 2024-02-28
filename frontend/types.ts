@@ -1,8 +1,6 @@
 export interface AudioData {
   id: string,
-  audioURL: string,
-  audioApiURL: string,
-  contentLength: number
+  audioURL: string
 }
 
 export interface MusicItem {
@@ -11,7 +9,7 @@ export interface MusicItem {
   videoId: string,
   title: string,
   description: string,
-  audioData: AudioData
+  audioURL: string | null
   search: {
     savefrom: string,
     sefon: [string]

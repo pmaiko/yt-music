@@ -18,20 +18,20 @@ export class Player {
     this.onChangeStatus = onChangeStatus
 
     this.audio.addEventListener('ended', () => {
-      const currentTrackIndex = this.playlist.findIndex(item => item.id === this.playingAudio?.id)
-      const nextTrackIndex = (currentTrackIndex + 1) % this.playlist.length
-      const nextAudioData = this.playlist[nextTrackIndex]
+      this.nextTrack()
+    })
 
-      if (nextAudioData) {
-        this.play(nextAudioData)
-      }
+    navigator.mediaSession.setActionHandler('nexttrack', () => {
+      this.nextTrack()
+    })
 
-      this.changeStatus({ message: 'Audio ended' })
+    navigator.mediaSession.setActionHandler('previoustrack', () => {
+      this.previousTrack()
     })
   }
 
   play (audioData: AudioData) {
-    if (this.playingAudio?.id === audioData.id && !this.audio.paused) {
+    if (this.playingAudio?.id === audioData.id) {
       if (this.audio.paused) {
         this.audio.play()
         this.changeStatus({ message: 'Audio play again' })
@@ -47,6 +47,28 @@ export class Player {
     this.playingAudio = audioData
 
     this.changeStatus()
+  }
+
+  nextTrack () {
+    const currentTrackIndex = this.getCurrentTrackIndex()
+    const nextTrackIndex = (currentTrackIndex + 1) % this.playlist.length
+    const nextAudioData = this.playlist[nextTrackIndex]
+
+    this.play(nextAudioData)
+    this.changeStatus({ message: 'Audio ended' })
+  }
+
+  previousTrack () {
+    const currentTrackIndex = this.getCurrentTrackIndex()
+    const prevTrackIndex = (currentTrackIndex - 1 + this.playlist.length) % this.playlist.length
+    const nextAudioData = this.playlist[prevTrackIndex]
+
+    this.play(nextAudioData)
+    this.changeStatus({ message: 'Audio ended' })
+  }
+
+  getCurrentTrackIndex () {
+    return this.playlist.findIndex(item => item.id === this.playingAudio?.id)
   }
 
   changeStatus ({ message }: { message?: string } = {}) {

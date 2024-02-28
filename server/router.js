@@ -1,10 +1,9 @@
-import { musicController, getAudioURL } from './controllers/musicController.js'
+import { musicController } from './controllers/musicController.js'
 import express from 'express'
 
 const apiRouter = express.Router()
 
 apiRouter.get('/music', musicController)
-apiRouter.get('/yt-video/:videoId', getAudioURL)
 apiRouter.get('/test', (req, res) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   res.setHeader('Transfer-Encoding', 'chunked')
