@@ -10,6 +10,7 @@ export interface MusicItem {
   title: string,
   description: string,
   audioURL: string | null
+  image: string,
   search: {
     savefrom: string,
     sefon: [string]

@@ -20,13 +20,28 @@ export class Player {
     this.audio.addEventListener('ended', () => {
       this.nextTrack()
     })
-
     navigator.mediaSession.setActionHandler('nexttrack', () => {
       this.nextTrack()
     })
-
     navigator.mediaSession.setActionHandler('previoustrack', () => {
       this.previousTrack()
+    })
+    navigator.mediaSession.setActionHandler('seekbackward', () => {
+      this.previousTrack()
+    })
+    navigator.mediaSession.setActionHandler('seekforward', () => {
+      this.nextTrack()
+    })
+    navigator.mediaSession.setActionHandler('play', () => {
+      this.audio.play()
+    })
+    navigator.mediaSession.setActionHandler('pause', () => {
+      this.audio.pause()
+    })
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: '---',
+      artist: 'artist',
+      album: 'album'
     })
   }
 

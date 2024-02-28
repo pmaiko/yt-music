@@ -8,7 +8,7 @@ export default defineConfig({
     vue(),
     checker({
       stylelint: {
-        lintCommand: 'stylelint ./frontend/**/*.{css,sass,vue}',
+        lintCommand: 'stylelint ./frontend/**/*.{css,sass,scss,vue}',
       },
       eslint: {
         lintCommand: 'eslint "./frontend/**/*.{ts,tsx,vue}"'

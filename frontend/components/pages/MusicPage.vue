@@ -1,39 +1,41 @@
 <template>
   <div class="music-page">
-    <div
-      v-if="state.items && !state.loading"
-      class="music-page__list"
-    >
-      <audio
-        ref="audioRef"
-        id="audioPlayer"
-        controls
-      />
-
+    <div class="container">
       <div
-        v-for="item in state.items"
-        :key="item.id"
-        class="music-page__list-item"
+        v-if="state.items && !state.loading"
+        class="music-page__list"
       >
-        <MusicCard
-          v-bind="item"
+        <audio
+          ref="audioRef"
+          id="audioPlayer"
+          controls
         />
+
         <div
-          v-if="item.audioURL"
-          @click="onPlay({
-            id: item.id,
-            audioURL: item.audioURL
-          })"
+          v-for="item in state.items"
+          :key="item.id"
+          class="music-page__list-item"
         >
-          {{ state.playerStatus?.playingAudio?.id === item.id && !state.playerStatus?.paused ? 'Pause' : 'Play' }}
+          <MusicCard
+            v-bind="item"
+          />
+          <div
+            v-if="item.audioURL"
+            @click="onPlay({
+              id: item.id,
+              audioURL: item.audioURL
+            })"
+          >
+            {{ state.playerStatus?.playingAudio?.id === item.id && !state.playerStatus?.paused ? 'Pause' : 'Play' }}
+          </div>
         </div>
       </div>
-    </div>
-    <div v-else-if="state.loading">
-      Loading...
-    </div>
-    <div v-else>
-      Not found
+      <div v-else-if="state.loading">
+        Loading...
+      </div>
+      <div v-else>
+        Not found
+      </div>
     </div>
   </div>
 </template>
@@ -98,3 +100,14 @@
     state.playerStatus = status
   }
 </script>
+<style lang="scss">
+  .music-page {
+    &__list {
+      &-item {
+        &:not(:last-child) {
+          margin-bottom: 1.5rem;
+        }
+      }
+    }
+  }
+</style>
