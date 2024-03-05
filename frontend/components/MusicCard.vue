@@ -14,6 +14,13 @@
         <h6 class="music-card__description">
           {{ title }}
         </h6>
+        <a
+          :href="audioURL || ''"
+          target="_blank"
+          class="music-card__link"
+        >
+          Link
+        </a>
       </div>
     </div>
   </article>
@@ -41,6 +48,10 @@
 
     &__description {
       margin-top: 0.5rem;
+    }
+
+    &__link {
+      word-break: break-word;
     }
   }
 </style>
