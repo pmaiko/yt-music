@@ -4,9 +4,6 @@
   "buildCommand": "npm run build",
 
   "routes":[
-    {
-      "src":"/(.*)",
-      "dest":"/index.js"
-    }
+    { "src": "/api", "dest": "/index.js" }
   ]
 }
