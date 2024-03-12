@@ -3,5 +3,17 @@
   "outputDirectory": "build",
   "buildCommand": "npm run build",
 
-  "rewrites": [{ "source": "/(.*)", "destination": "/server" }]
+  "builds":[
+    {
+      "src":"./index.js",
+      "use":"@vercel/node"
+    }
+  ],
+
+  "routes":[
+    {
+      "src":"/(.*)",
+      "dest":"/build"
+    }
+  ]
 }
