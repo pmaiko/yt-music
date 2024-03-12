@@ -3,5 +3,5 @@
   "outputDirectory": "build",
   "buildCommand": "npm run build",
 
-  "rewrites": [{ "source": "/(.*)", "destination": "/index.js" }]
+  "rewrites": [{ "source": "/(.*)", "destination": "/server" }]
 }
