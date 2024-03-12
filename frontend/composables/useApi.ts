@@ -1,4 +1,4 @@
-import { MusicItem } from '~/types'
+import { MusicItem, PageInfo } from '~/types'
 import http, { AxiosResponse } from 'axios'
 
 const axios = http.create({
@@ -7,8 +7,15 @@ const axios = http.create({
 
 export const useApi = () => {
 
-  const getMusic = async () : Promise<AxiosResponse<[MusicItem]>> => {
-    return await axios.get('/music')
+  const getMusic = async (pageToken: string | null) : Promise<AxiosResponse<{
+    items: Array<MusicItem>,
+    pageInfo: PageInfo
+  }>> => {
+    return await axios.get('/music', {
+      params: {
+        pageToken
+      }
+    })
   }
 
   return {

@@ -97,6 +97,10 @@ export class Player {
     return status
   }
 
+  updatePlaylist (playlist: Array<AudioData>) {
+    this.playlist = playlist
+  }
+
   destroy () {
     this.audio.pause()
     this.audio = new Audio()

@@ -17,3 +17,9 @@ export interface MusicItem {
     fm: [string]
   }
 }
+
+export interface PageInfo {
+  total: number | null,
+  perPage: number,
+  pageToken: | null
+}

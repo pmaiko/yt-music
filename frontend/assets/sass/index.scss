@@ -37,12 +37,13 @@ h1 {
 }
 
 a {
+  font-size: 0.8rem;
   font-weight: 500;
-  color: #646cff;
+  color: #64ff78;
   text-decoration: inherit;
 
   &:hover {
-	color: #535bf2;
+	color: #349b41;
   }
 }
 
@@ -58,7 +59,7 @@ button {
   transition: border-color 0.25s;
 
   &:hover {
-	border-color: #646cff;
+	border-color: #349b41;
   }
 
   &:focus,
@@ -83,11 +84,7 @@ img {
 	background-color: #fff;
   }
 
-  a:hover {
-	color: #747bff;
-  }
-
   button {
-	background-color: #f9f9f9;
+	background-color: #1a1a1a;
   }
 }

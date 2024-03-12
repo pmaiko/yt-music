@@ -16,19 +16,21 @@ export const musicController = async (req, res) => {
   const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
   const playlistId = 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh'
   const perPage = 10
+  const pageToken = req.query.pageToken || null
 
   const { data } = await axios.get(host, {
     params: {
       key: 'AIzaSyAqsPiR5CDAFGEyMwWBhSY2OHbkExcYHh8',
       part: 'id,snippet',
       playlistId,
-      maxResults: perPage
+      maxResults: perPage,
+      pageToken
     },
   })
 
-  let ytList = data.items || null
-  if (ytList) {
-    ytList = await Promise.all(ytList.map(async (item) => {
+  let items = data.items || null
+  if (items) {
+    items = await Promise.all(items.map(async (item) => {
       const videoId = item.snippet.resourceId.videoId
       const videoOwnerChannelTitle = item.snippet.videoOwnerChannelTitle
       const title = item.snippet.title
@@ -72,7 +74,14 @@ export const musicController = async (req, res) => {
     }))
   }
 
-  res.send(ytList)
+  res.send({
+    items,
+    pageInfo: {
+      total: data?.pageInfo?.totalResults || null,
+      perPage,
+      pageToken: data?.nextPageToken || null
+    }
+  })
 }
 
 function addThreeDots (text, limit = 200) {
