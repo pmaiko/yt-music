@@ -1,6 +1,7 @@
 {
   "version": 2,
   "outputDirectory": "build",
+  "buildCommand": "npm run build",
   "builds":[
     {
       "src": "*.html",
