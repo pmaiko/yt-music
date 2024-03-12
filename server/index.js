@@ -11,6 +11,7 @@ const port = 3000
 
 if (process.env.NODE_ENV === 'production') {
   ViteExpress.config({ mode: process.env.NODE_ENV })
+  ViteExpress.build()
   app.use(express.static(resolve(__dirname, '../build')))
   app.use(express.static(resolve(__dirname, '../static')))
   app.use(express.static(resolve(__dirname, '/tmp')))
