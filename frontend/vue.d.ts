@@ -1,10 +1,10 @@
-/// <reference types="vite/client" />
+declare module '*.vue'
 
 interface ImportMetaEnv {
   readonly APP_API_URL: string
-  // more env variables...
 }
 
 interface ImportMeta {
   readonly env: ImportMetaEnv
 }
+
