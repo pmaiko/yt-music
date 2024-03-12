@@ -4,6 +4,11 @@ import ffmpeg from 'fluent-ffmpeg'
 import ffmpegPath from '@ffmpeg-installer/ffmpeg'
 import { sefonParser } from '../modules/SefonParser.js'
 import { fmParser } from '../modules/FmParser.js'
+// import { HttpsProxyAgent } from 'https-proxy-agent'
+//
+// console.log(HttpsProxyAgent)
+// const proxy = 'http://23.227.38.217'
+// const agent = new HttpsProxyAgent(proxy)
 
 ffmpeg.setFfmpegPath(ffmpegPath.path)
 

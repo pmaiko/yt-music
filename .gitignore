@@ -1,5 +1,6 @@
 # Logs
 .idea
+build
 tmp/*.mp3
 logs
 *.log
