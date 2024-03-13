@@ -5,13 +5,12 @@
         <template
           v-if="state.items"
         >
-          <div class="music-page__player">
-            <audio
-              ref="audioRef"
-              id="audioPlayer"
-              controls
-            />
-          </div>
+          <AudioPlayer
+            ref="audioPlayer"
+            v-if="playlist"
+            :playlist="playlist"
+            class="music-page__player"
+          />
           <div
             class="music-page__list"
           >
@@ -22,12 +21,12 @@
             >
               <MusicCard
                 v-bind="item"
-                @clickImage="onPlay(item)"
+                @clickImage="playTrack(item)"
               >
                 <template v-slot:playPause="{className}">
                   <BaseIcon
                     :class="className"
-                    :icon="state.playerStatus?.playingAudio?.id === item.id && !state.playerStatus?.paused ? 'pause' : 'play'"
+                    :icon="audioPlayerDetails?.track?.id === item.id && !audioPlayerDetails?.paused ? 'pause' : 'play'"
                   />
                 </template>
               </MusicCard>
@@ -52,48 +51,46 @@
   </div>
 </template>
 <script setup lang="ts">
-  import { MusicItem, AudioData, PageInfo } from '~/types'
+  import { MusicItem, PageInfo } from '~/types.ts'
+  import { Track } from '~/components/modules/AudioPlayer/index.ts'
+
   import MusicCard from '~/components/MusicCard.vue'
-  import { Player, Status } from '~/modules/Player.ts'
   import BaseIcon from '~/components/base/BaseIcon.vue'
   import BaseButton from '~/components/base/BaseButton.vue'
+  import AudioPlayer from '~/components/modules/AudioPlayer/AudioPlayer.vue'
 
-  type State = {
+  const state = reactive<{
     items: Array<MusicItem> | null,
     pageInfo: PageInfo | null
-    loading: boolean,
-    playerStatus: Status | null
-  }
-
-  const audioRef = ref<HTMLAudioElement | null>(null)
-  const state = reactive<State>({
+    loading: boolean
+  }>({
     items: null,
     pageInfo: null,
-    loading: true,
-    playerStatus: null
+    loading: true
   })
-  let player: InstanceType<typeof Player> | null = null
-  const playlist: ComputedRef<Array<AudioData>> = computed(() => {
+
+  const audioPlayer = ref<InstanceType<typeof AudioPlayer> | null>(null)
+  const audioPlayerDetails = computed(() => {
+    return audioPlayer.value?.details
+  })
+
+  const playlist = computed<Array<Track> | null>(() => {
     return state.items
-      ?.filter(item => item.audioURL)
+      ?.filter(item => item.src)
       ?.map(item => {
         return {
           id: item.id,
-          audioURL: item.audioURL || ''
+          title: item.title,
+          artist: item.videoOwnerChannelTitle,
+          album: null,
+          image: item.image,
+          src: item.src as string
         }
-      }) || []
+      }) || null
   })
 
   onMounted(async () => {
     await fetchMusic()
-
-    if (audioRef.value) {
-      player = new Player(playlist.value, audioRef.value, onChangeStatus)
-    }
-  })
-
-  onBeforeUnmount(() => {
-    player?.destroy()
   })
 
   const fetchMusic = async (loadMore = false) => {
@@ -115,20 +112,19 @@
 
   const loadMore = async () => {
     await fetchMusic(true)
-    player?.updatePlaylist(playlist.value)
   }
 
-  const onPlay = (musicItem: MusicItem) => {
-    if (musicItem.audioURL) {
-      player?.play({
-        id: musicItem.id,
-        audioURL: musicItem.audioURL
+  const playTrack = (item: MusicItem) => {
+    if (item.src) {
+      audioPlayer.value?.toggleTrack({
+        id: item.id,
+        title: item.title,
+        artist: item.videoOwnerChannelTitle,
+        album: null,
+        image: item.image,
+        src: item.src
       })
     }
-  }
-
-  const onChangeStatus = (status: Status) => {
-    state.playerStatus = status
   }
 </script>
 <style lang="scss">

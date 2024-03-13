@@ -57,17 +57,17 @@ export const musicController = async (req, res) => {
         title: title,
         description: addThreeDots(description),
         image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url,
-        audioURL,
+        src: audioURL,
 
-        search: {
-          savefrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
-          sefon: [
-            await sefonParser(searchStr1),
-            await sefonParser(searchStr2)
+        links: {
+          saveFrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
+          seFon: [
+            await sefonParser(searchStr2),
+            await sefonParser(searchStr1)
           ],
           fm: [
-            await fmParser(searchStr1),
-            await fmParser(searchStr2)
+            await fmParser(searchStr2),
+            await fmParser(searchStr1)
           ]
         }
       }

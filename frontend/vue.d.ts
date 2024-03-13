@@ -1,4 +1,7 @@
-declare module '*.vue'
+declare module '*.vue' {
+  import Vue from 'vue'
+  export default Vue
+}
 
 interface ImportMetaEnv {
   readonly APP_API_URL: string

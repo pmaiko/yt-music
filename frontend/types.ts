@@ -1,19 +1,14 @@
-export interface AudioData {
-  id: string,
-  audioURL: string
-}
-
 export interface MusicItem {
   id: string,
   videoOwnerChannelTitle: string,
   videoId: string,
   title: string,
   description: string,
-  audioURL: string | null
+  src: string | null
   image: string,
-  search: {
-    savefrom: string,
-    sefon: [string]
+  links: {
+    saveFrom: string,
+    seFon: [string]
     fm: [string]
   }
 }

@@ -30,7 +30,7 @@
 
 <script setup lang="ts">
   import MusicPage from '~/components/pages/MusicPage.vue'
-  import '~/modules/utils.ts'
+  import '~/helpers/utils.ts'
 </script>
 
 <style lang="scss">

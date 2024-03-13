@@ -24,7 +24,7 @@
 
         <div class="music-card__links">
           <a
-            :href="audioURL || ''"
+            :href="src || ''"
             target="_blank"
             class="music-card__link"
           >
@@ -37,7 +37,7 @@
             </span>
           </a>
           <a
-            :href="search.savefrom"
+            :href="links.saveFrom"
             target="_blank"
             class="music-card__link"
           >
@@ -46,11 +46,11 @@
               class="music-card__link-icon"
             />
             <span class="music-card__link-text">
-              Savefrom
+              SaveFrom
             </span>
           </a>
           <a
-            v-for="(sefon, index) in search.sefon"
+            v-for="(sefon, index) in links.seFon"
             :key="sefon"
             :href="sefon"
             target="_blank"
@@ -61,11 +61,11 @@
               class="music-card__link-icon"
             />
             <span class="music-card__link-text">
-              Sefon {{ index + 1 }}
+              SeFon {{ index + 1 }}
             </span>
           </a>
           <a
-            v-for="(fm, index) in search.fm"
+            v-for="(fm, index) in links.fm"
             :key="fm"
             :href="fm"
             target="_blank"
