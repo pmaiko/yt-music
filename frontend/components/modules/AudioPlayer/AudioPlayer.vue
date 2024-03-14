@@ -3,6 +3,26 @@
     class="audio-player-progress"
     @click="changeProgressHandler"
   >
+    <!--<audio-->
+    <!--  ref="audioElement"-->
+    <!--  controls-->
+    <!--  playsinline-->
+    <!--/>-->
+    <!--<div-->
+    <!--  ref="prevButton"-->
+    <!--  id="prevButton"-->
+    <!--&gt;-->
+    <!--  prev-->
+    <!--</div>-->
+    <!--<br>-->
+    <!--<br>-->
+    <!--<button-->
+    <!--  ref="nextButton"-->
+    <!--  id="nextButton"-->
+    <!--  @click="nextTrack"-->
+    <!--&gt;-->
+    <!--  next-->
+    <!--</button>-->
     <div class="audio-player-progress__passive" />
     <div
       class="audio-player-progress__active audio-player-progress__active_loading"
@@ -14,7 +34,7 @@
     />
   </div>
 </template>
-<!--https://www.w3schools.com/tags/ref_av_dom.asp-->
+<!-- https://www.w3schools.com/tags/ref_av_dom.asp -->
 <script setup lang="ts">
   import { Track } from './types.ts'
   import { useAudio } from './composables/useAudio.ts'
@@ -23,6 +43,8 @@
   const props = defineProps<{
     playlist: Array<Track>
   }>()
+
+  // const audioElement = ref<HTMLAudioElement | null>(null)
 
   const getNextTrack = (currentTrack: Track) : Track => {
     const currentTrackIndex = getTrackIndex(currentTrack)
@@ -49,14 +71,14 @@
     destroy
   } = useAudio({ getNextTrack, getPreviousTrack })
 
+  onBeforeUnmount(() => {
+    destroy()
+  })
+
   defineExpose({
     details,
     playTrack,
     toggleTrack
-  })
-
-  onBeforeUnmount(() => {
-    destroy()
   })
 </script>
 <style lang="scss">
