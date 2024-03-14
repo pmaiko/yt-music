@@ -1,9 +1,15 @@
 <template>
-  <Suspense>
-    <MusicPage
-      title="MusicPage"
-    />
-  </Suspense>
+  <div class="layout">
+    <ModalsContainer />
+
+    <main>
+      <Suspense>
+        <MusicPage
+          title="MusicPage"
+        />
+      </Suspense>
+    </main>
+  </div>
   <!--<div>-->
   <!--  <a-->
   <!--    href="https://vitejs.dev"-->
@@ -29,6 +35,7 @@
 </template>
 
 <script setup lang="ts">
+  import { ModalsContainer } from 'vue-final-modal'
   import MusicPage from '~/components/pages/MusicPage.vue'
   import '~/helpers/utils.ts'
 </script>

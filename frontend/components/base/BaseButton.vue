@@ -27,6 +27,24 @@
   .base-button {
     display: flex;
     align-items: center;
+    padding: 0.6em 1.2em;
+    font-family: inherit;
+    font-size: 1em;
+    font-weight: 500;
+    cursor: pointer;
+    background-color: $c-primary;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    transition: border-color 0.25s;
+
+    &:hover {
+      border-color: $c-primary;
+    }
+
+    &:focus,
+    &:focus-visible {
+      outline: 4px auto -webkit-focus-ring-color;
+    }
 
     &__loading {
       display: flex;

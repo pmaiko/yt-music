@@ -1,6 +1,10 @@
 import { createApp } from 'vue'
+import { createVfm } from 'vue-final-modal'
+import 'vue-final-modal/style.css'
 import '~/assets/sass/index.scss'
-import '~/assets/icons/icofont.css'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+const vfm = createVfm()
+app.use(vfm)
+app.mount('#app')

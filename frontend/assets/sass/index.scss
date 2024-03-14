@@ -1,4 +1,6 @@
+@import "reset";
 @import "grid";
+@import "typography";
 
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -6,7 +8,7 @@
   line-height: 1.2;
   color: rgba(255, 255, 255, 0.87);
   color-scheme: light dark;
-  background-color: #242424;
+  background-color: $c-body;
   font-synthesis: none;
   text-rendering: optimizelegibility;
   -webkit-font-smoothing: antialiased;
@@ -22,6 +24,12 @@ html {
   margin: 0;
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 #app {
   position: relative;
   display: flex;
@@ -31,45 +39,12 @@ html {
   min-height: 100dvh;
 }
 
-h1 {
-  font-size: 3.2em;
-  line-height: 1.1;
-}
-
 a {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #64ff78;
-  text-decoration: inherit;
-
-  &:hover {
-	color: #349b41;
-  }
+  color: $c-primary;
 }
 
 button {
-  padding: 0.6em 1.2em;
-  font-family: inherit;
-  font-size: 1em;
-  font-weight: 500;
   cursor: pointer;
-  background-color: #1a1a1a;
-  border: 1px solid transparent;
-  border-radius: 8px;
-  transition: border-color 0.25s;
-
-  &:hover {
-	border-color: #349b41;
-  }
-
-  &:focus,
-  &:focus-visible {
-	outline: 4px auto -webkit-focus-ring-color;
-  }
-}
-
-.card {
-  padding: 2em;
 }
 
 img {
@@ -82,9 +57,5 @@ img {
   :root {
 	color: #213547;
 	background-color: #fff;
-  }
-
-  button {
-	background-color: #1a1a1a;
   }
 }

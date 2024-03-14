@@ -7,8 +7,7 @@ export interface Track {
   src: string
 }
 
-export interface Details {
-  track: Track | null,
+export interface Info {
   paused: boolean,
   progress: number,
   progressLoading: number,

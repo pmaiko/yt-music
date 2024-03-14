@@ -1,15 +1,15 @@
-import { Track, Details } from '../types.ts'
+import { Track, Info } from '../types.ts'
 
-export const useAudio = ({ getNextTrack, getPreviousTrack }: {
+// playsinline
+export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
+  volume: Ref<number>
   getNextTrack: (currentTrack: Track) => Track,
   getPreviousTrack: (currentTrack: Track) => Track
 }) => {
   let audioElement: HTMLAudioElement | null = new Audio()
-  // audioElement.controls = true
-  // document.body.append(audioElement)
 
-  const state = reactive<Details>({
-    track: null,
+  const track = ref<Track | null>(null)
+  const info = reactive<Info>({
     paused: false,
     progress: 0,
     progressLoading: 0,
@@ -20,12 +20,20 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
   })
 
   const loading = computed(() => {
-    return !state.isLoadeddata && !state.isLoadedmetadata && !!state.track
+    return !info.isLoadeddata && !info.isLoadedmetadata && !!track.value
   })
 
-  const playTrack = (track: Track) => {
+  watch(volume, () => {
     if (audioElement) {
-      const newAudio = new Audio(track.src)
+      audioElement.volume = volume.value
+    }
+  }, {
+    immediate: true
+  })
+
+  const playTrack = (_track: Track) => {
+    if (audioElement) {
+      const newAudio = new Audio(_track.src)
       newAudio.onloadedmetadata = () => {
         if (audioElement) {
           audioElement.src = newAudio.src
@@ -33,21 +41,21 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
         }
       }
 
-      state.track = track
-      state.paused = false
-      state.progress = 0
-      state.currentTime = 0
-      state.isLoadeddata = false
-      state.isLoadedmetadata = false
+      track.value = _track
+      info.paused = false
+      info.progress = 0
+      info.currentTime = 0
+      info.isLoadeddata = false
+      info.isLoadedmetadata = false
 
       navigator.mediaSession.playbackState = 'playing'
       navigator.mediaSession.metadata = new MediaMetadata({
-        title: state.track?.title,
-        artist: state.track?.artist,
+        title: track.value?.title,
+        artist: track.value?.artist,
         album: undefined,
         artwork: [
           {
-            src: state.track?.image || ''
+            src: track.value?.image || ''
           }
         ]
       })
@@ -56,12 +64,12 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
 
   const resumeTrack = () => {
     audioElement?.play()
-    state.paused = false
+    info.paused = false
   }
 
   const pauseTrack = () => {
     audioElement?.pause()
-    state.paused = true
+    info.paused = true
 
     navigator.mediaSession.playbackState = 'paused'
   }
@@ -70,12 +78,12 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
 
   }
 
-  const toggleTrack = (track: Track) => {
-    if (state.paused || track.src !== audioElement?.src) {
-      if (track.src === audioElement?.src) {
+  const toggleTrack = (_track: Track) => {
+    if (info.paused || _track.src !== audioElement?.src) {
+      if (_track.src === audioElement?.src) {
         resumeTrack()
       } else {
-        playTrack(track)
+        playTrack(_track)
       }
     } else {
       pauseTrack()
@@ -83,17 +91,17 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
   }
 
   const nextTrack = () => {
-    state.track && playTrack(getNextTrack(state.track))
+    track.value && playTrack(getNextTrack(track.value))
   }
 
   const prevTrack = () => {
-    state.track && playTrack(getPreviousTrack(state.track))
+    track.value && playTrack(getPreviousTrack(track.value))
   }
 
   const changeProgressHandler = (event: MouseEvent) => {
     if (audioElement && event.currentTarget instanceof HTMLElement) {
       const percent = event.offsetX / event.currentTarget.clientWidth * 100
-      const duration = state.duration || 0
+      const duration = info.duration || 0
       audioElement.currentTime = duration - (duration / 100 * (100 - percent))
     }
   }
@@ -108,24 +116,24 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
     const currentTime = audioElement?.currentTime || 0
     const duration = audioElement?.duration || 0
 
-    state.progress = currentTime / duration * 100
-    state.currentTime = currentTime
-    state.duration = duration
+    info.progress = currentTime / duration * 100
+    info.currentTime = currentTime
+    info.duration = duration
   })
 
   audioElement.addEventListener('loadeddata', () => {
-    state.isLoadeddata = true
+    info.isLoadeddata = true
   })
   audioElement.addEventListener('loadedmetadata', () => {
-    state.isLoadedmetadata = true
+    info.isLoadedmetadata = true
   })
   audioElement.addEventListener('progress', () => {
     if (audioElement) {
-      state.progressLoading = (audioElement.buffered.end(0) / audioElement.duration) * 100
+      info.progressLoading = (audioElement.buffered.end(0) / audioElement.duration) * 100
     }
   })
   audioElement.addEventListener('ended', () => {
-    state.track && playTrack(getNextTrack(state.track))
+    track.value && playTrack(getNextTrack(track.value))
     nextTrack()
   })
 
@@ -142,7 +150,7 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
     prevTrack()
   })
   navigator.mediaSession.setActionHandler('play', () => {
-    state.track && playTrack(state.track)
+    track.value && playTrack(track.value)
   })
   navigator.mediaSession.setActionHandler('pause', () => {
     pauseTrack()
@@ -155,7 +163,8 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
 
   return {
     audioElement,
-    details: state,
+    track,
+    info,
     loading,
 
     playTrack,
@@ -163,6 +172,7 @@ export const useAudio = ({ getNextTrack, getPreviousTrack }: {
     stopTrack,
     toggleTrack,
     nextTrack,
+    prevTrack,
     changeProgressHandler,
     destroy
   }

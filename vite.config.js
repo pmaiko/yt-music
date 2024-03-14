@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import checker from 'vite-plugin-checker'
+import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
 
 export default defineConfig({
@@ -16,6 +17,12 @@ export default defineConfig({
       },
       vueTsc: true
     }),
+    Components({
+      dts: './frontend/components.d.ts',
+      dirs: [
+        './frontend/components/base'
+      ],
+    }),
     AutoImport({
       include: [
         /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
@@ -25,7 +32,12 @@ export default defineConfig({
       ],
 
       imports: [
-        'vue'
+        'vue',
+        {
+          'vue-final-modal': [
+            'useModal'
+          ]
+        }
       ],
       dirs: [
         './frontend/composables'

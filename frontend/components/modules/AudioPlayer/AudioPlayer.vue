@@ -1,50 +1,94 @@
 <template>
-  <div
-    class="audio-player-progress"
-    @click="changeProgressHandler"
-  >
-    <!--<audio-->
-    <!--  ref="audioElement"-->
-    <!--  controls-->
-    <!--  playsinline-->
-    <!--/>-->
-    <!--<div-->
-    <!--  ref="prevButton"-->
-    <!--  id="prevButton"-->
-    <!--&gt;-->
-    <!--  prev-->
-    <!--</div>-->
-    <!--<br>-->
-    <!--<br>-->
-    <!--<button-->
-    <!--  ref="nextButton"-->
-    <!--  id="nextButton"-->
-    <!--  @click="nextTrack"-->
-    <!--&gt;-->
-    <!--  next-->
-    <!--</button>-->
-    <div class="audio-player-progress__passive" />
+  <div class="audio-player">
+    <div class="audio-player-info">
+      <p class="audio-player-info__title">
+        {{ track?.title || '---' }}
+      </p>
+      <p class="audio-player-info__artist">
+        {{ track?.artist || '---' }}
+      </p>
+    </div>
     <div
-      class="audio-player-progress__active audio-player-progress__active_loading"
-      :style="{width: `${details?.progressLoading}%`}"
-    />
-    <div
-      class="audio-player-progress__active"
-      :style="{width: `${details?.progress}%`}"
-    />
+      class="audio-player-progress"
+      @click="changeProgressHandler"
+    >
+      <div class="audio-player-progress__passive" />
+      <div
+        class="audio-player-progress__active audio-player-progress__active_loading"
+        :style="{width: `${info.progressLoading}%`}"
+      />
+      <div
+        class="audio-player-progress__active"
+        :style="{width: `${info.progress}%`}"
+      />
+    </div>
+    <div class="audio-player-action">
+      <div class="audio-player-action__left">
+        <div class="audio-player-action-controls">
+          <button
+            class="audio-player-action-controls__prev"
+            @click="prevTrack"
+          >
+            <BaseIcon
+              icon="prev"
+              size="2x"
+            />
+          </button>
+          <button
+            v-if="info.paused || !track"
+            class="audio-player-action-controls__play"
+            @click="toggleTrack(track || playlist[0])"
+          >
+            <BaseIcon
+              icon="play"
+              size="2x"
+            />
+          </button>
+          <button
+            v-else
+            class="audio-player-action-controls__pause"
+            @click="toggleTrack(track || playlist[0])"
+          >
+            <BaseIcon
+              icon="pause"
+              size="2x"
+            />
+          </button>
+          <button
+            class="audio-player-action-controls__next"
+            @click="nextTrack"
+          >
+            <BaseIcon
+              icon="next"
+              size="2x"
+            />
+          </button>
+        </div>
+      </div>
+      <div class="audio-player-action__right">
+        <div class="audio-player-action__volume">
+          <Vue3Slider
+            v-model="volume"
+            :min="0"
+            :max="1"
+            :step="0.1"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <!-- https://www.w3schools.com/tags/ref_av_dom.asp -->
 <script setup lang="ts">
   import { Track } from './types.ts'
   import { useAudio } from './composables/useAudio.ts'
-  import { onBeforeUnmount } from 'vue'
+  import Vue3Slider from 'vue3-slider'
 
   const props = defineProps<{
     playlist: Array<Track>
   }>()
 
-  // const audioElement = ref<HTMLAudioElement | null>(null)
+  const volume = ref(1)
 
   const getNextTrack = (currentTrack: Track) : Track => {
     const currentTrackIndex = getTrackIndex(currentTrack)
@@ -64,32 +108,49 @@
   }
 
   const {
-    details,
+    info,
+    track,
     playTrack,
     toggleTrack,
+    nextTrack,
+    prevTrack,
     changeProgressHandler,
     destroy
-  } = useAudio({ getNextTrack, getPreviousTrack })
+  } = useAudio({ volume, getNextTrack, getPreviousTrack })
 
   onBeforeUnmount(() => {
     destroy()
   })
 
   defineExpose({
-    details,
+    info,
+    track,
     playTrack,
     toggleTrack
   })
 </script>
 <style lang="scss">
   .audio-player {
-    background-color: red;
+    width: 400px;
+    padding: 1rem 0;
+    background-color: transparent;
+    backdrop-filter: blur(3px);
+  }
+
+  .audio-player-info {
+    margin-bottom: 1rem;
+
+    &__artist {
+      margin-top: 0.5rem;
+    }
   }
 
   .audio-player-progress {
     position: relative;
-    width: 200px;
-    height: 5px;
+    width: 100%;
+    height: 7px;
+    overflow: hidden;
+    border-radius: 0.5rem;
 
     &__passive,
     &__active {
@@ -99,18 +160,52 @@
       z-index: -1;
       width: 100%;
       height: 100%;
+      border-radius: 0.5rem;
     }
 
     &__passive {
-      background-color: aliceblue;
+      background-color: $c-dark;
     }
 
     &__active {
-      background-color: #349b41;
+      background-color: $c-primary;
 
       &_loading {
-        background-color: #686565;
+        background-color: $c-secondary;
       }
+    }
+  }
+
+  .audio-player-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5rem;
+
+    &__left {
+      justify-content: flex-start;
+    }
+
+    &__right {
+      justify-content: flex-end;
+    }
+
+    &__volume {
+      width: 7rem;
+
+      .vue3-slider {
+        --color: #{$c-primary} !important;
+        --track-color: #{$c-dark} !important;
+      }
+    }
+  }
+
+  .audio-player-action-controls {
+    display: flex;
+
+    &__play {
+      background-color: transparent;
+      transform: translateX(10%);
     }
   }
 </style>

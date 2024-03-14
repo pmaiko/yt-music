@@ -26,7 +26,7 @@
                 <template v-slot:playPause="{className}">
                   <BaseIcon
                     :class="className"
-                    :icon="audioPlayerDetails?.track?.id === item.id && !audioPlayerDetails?.paused ? 'pause' : 'play'"
+                    :icon="audioPlayerTrack?.id === item.id && !audioPlayerInfo?.paused ? 'pause' : 'play'"
                   />
                 </template>
               </MusicCard>
@@ -70,8 +70,11 @@
   })
 
   const audioPlayer = ref<InstanceType<typeof AudioPlayer> | null>(null)
-  const audioPlayerDetails = computed(() => {
-    return audioPlayer.value?.details
+  const audioPlayerInfo = computed(() => {
+    return audioPlayer.value?.info
+  })
+  const audioPlayerTrack = computed(() => {
+    return audioPlayer.value?.track
   })
 
   const playlist = computed<Array<Track> | null>(() => {
@@ -129,7 +132,7 @@
 </script>
 <style lang="scss">
   .music-page {
-    padding: 80px 0;
+    padding: 0 0 3rem;
 
     &__wrapper {
       display: flex;
@@ -138,11 +141,10 @@
     }
 
     &__player {
-      position: fixed;
-      top: 0.25rem;
+      position: sticky;
+      top: 0;
       left: 50%;
       z-index: 99;
-      transform: translateX(-50%);
     }
 
     &__load-more {
@@ -150,6 +152,8 @@
     }
 
     &__list {
+      margin-top: 1rem;
+
       &-item {
         &:not(:last-child) {
           margin-bottom: 2rem;

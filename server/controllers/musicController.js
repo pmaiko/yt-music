@@ -36,13 +36,13 @@ export const musicController = async (req, res) => {
       const title = item.snippet.title
       const description = item.snippet.description
 
-      let audioURL = null
+      let audioSrc = null
       let format = null
 
       try {
         const info = await ytdl.getInfo(videoId)
         format = ytdl.chooseFormat(info.formats, { quality: '140' })
-        audioURL = format.url
+        audioSrc = format.url
       } catch (event) {
         console.error('Error chooseFormat')
       }
@@ -57,7 +57,7 @@ export const musicController = async (req, res) => {
         title: title,
         description: addThreeDots(description),
         image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url,
-        src: audioURL,
+        src: audioSrc,
 
         links: {
           saveFrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
