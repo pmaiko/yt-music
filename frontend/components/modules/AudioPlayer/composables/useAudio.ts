@@ -45,16 +45,18 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
     if (audioElement) {
       info.isLoadingMetadata = true
 
-      audioElement.src = await getSrc(_track)
-      await audioElement.play()
+      const src = await getSrc(_track)
+
+      audioElement.src = src
+      await audioElement.play().catch(() => {})
 
       track.value = _track
-      info.src = audioElement.src
-      info.paused = false
+      info.src = src
+      info.paused = !src
       info.progress = 0
       info.currentTime = 0
 
-      navigator.mediaSession.playbackState = 'playing'
+      navigator.mediaSession.playbackState = !src ? 'playing' : 'none'
       navigator.mediaSession.metadata = new MediaMetadata({
         title: track.value?.title,
         artist: track.value?.artist,
@@ -127,14 +129,12 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
   })
 
   audioElement.addEventListener('loadedmetadata', () => {
-    setTimeout(() => {
-      info.isLoadingMetadata = false
-    }, 500)
+    info.isLoadingMetadata = false
     info.duration = audioElement?.duration || 0
   })
 
-  audioElement.addEventListener('loadeddata', () => {
-    //
+  audioElement.addEventListener('error', () => {
+    info.isLoadingMetadata = false
   })
 
   audioElement.addEventListener('progress', () => {
@@ -142,6 +142,11 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
       info.progressLoading = (audioElement.buffered.end(0) / audioElement.duration) * 100
     }
   })
+
+  audioElement.addEventListener('loadeddata', () => {
+    //
+  })
+
   audioElement.addEventListener('ended', () => {
     nextTrack()
   })
