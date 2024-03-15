@@ -1,3 +1,4 @@
+import ip from 'ip'
 import express from 'express'
 import ViteExpress from 'vite-express'
 import { resolve, dirname } from 'path'
@@ -22,4 +23,5 @@ app.use('/api', apiRouter)
 
 ViteExpress.listen(app, port, () => {
   console.log(`App listening on port http://localhost:${port}`)
+  console.log(`App listening on port http://${ip.address()}:${port}`)
 })

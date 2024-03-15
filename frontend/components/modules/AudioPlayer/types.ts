@@ -8,11 +8,11 @@ export interface Track {
 }
 
 export interface Info {
+  src: string,
   paused: boolean,
   progress: number,
   progressLoading: number,
   currentTime: number,
   duration: number,
-  isLoadeddata: boolean,
-  isLoadedmetadata: boolean
+  isLoadingMetadata: boolean
 }

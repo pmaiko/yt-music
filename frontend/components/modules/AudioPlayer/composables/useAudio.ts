@@ -10,17 +10,13 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
 
   const track = ref<Track | null>(null)
   const info = reactive<Info>({
+    src: '',
     paused: false,
     progress: 0,
     progressLoading: 0,
     currentTime: 0,
     duration: 0,
-    isLoadeddata: false,
-    isLoadedmetadata: false
-  })
-
-  const loading = computed(() => {
-    return !info.isLoadeddata && !info.isLoadedmetadata && !!track.value
+    isLoadingMetadata: false
   })
 
   watch(volume, () => {
@@ -31,22 +27,32 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
     immediate: true
   })
 
-  const playTrack = (_track: Track) => {
-    if (audioElement) {
-      const newAudio = new Audio(_track.src)
-      newAudio.onloadedmetadata = () => {
+  const getSrc = (_track: Track): Promise<string> => {
+    return new Promise((resolve) => {
+      const audio = new Audio(_track.src)
+      audio.onloadedmetadata = () => {
         if (audioElement) {
-          audioElement.src = newAudio.src
-          audioElement.play()
+          resolve(audio.src)
         }
       }
+      audio.onerror = () => {
+        resolve('')
+      }
+    })
+  }
+
+  const playTrack = async (_track: Track) => {
+    if (audioElement) {
+      info.isLoadingMetadata = true
+
+      audioElement.src = await getSrc(_track)
+      await audioElement.play()
 
       track.value = _track
+      info.src = audioElement.src
       info.paused = false
       info.progress = 0
       info.currentTime = 0
-      info.isLoadeddata = false
-      info.isLoadedmetadata = false
 
       navigator.mediaSession.playbackState = 'playing'
       navigator.mediaSession.metadata = new MediaMetadata({
@@ -118,22 +124,25 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
 
     info.progress = currentTime / duration * 100
     info.currentTime = currentTime
-    info.duration = duration
+  })
+
+  audioElement.addEventListener('loadedmetadata', () => {
+    setTimeout(() => {
+      info.isLoadingMetadata = false
+    }, 500)
+    info.duration = audioElement?.duration || 0
   })
 
   audioElement.addEventListener('loadeddata', () => {
-    info.isLoadeddata = true
+    //
   })
-  audioElement.addEventListener('loadedmetadata', () => {
-    info.isLoadedmetadata = true
-  })
+
   audioElement.addEventListener('progress', () => {
     if (audioElement) {
       info.progressLoading = (audioElement.buffered.end(0) / audioElement.duration) * 100
     }
   })
   audioElement.addEventListener('ended', () => {
-    track.value && playTrack(getNextTrack(track.value))
     nextTrack()
   })
 
@@ -165,7 +174,6 @@ export const useAudio = ({ volume, getNextTrack, getPreviousTrack }: {
     audioElement,
     track,
     info,
-    loading,
 
     playTrack,
     pauseTrack,

@@ -3,6 +3,7 @@ import vue from '@vitejs/plugin-vue'
 import checker from 'vite-plugin-checker'
 import Components from 'unplugin-vue-components/vite'
 import AutoImport from 'unplugin-auto-import/vite'
+import autoprefixer from 'autoprefixer'
 
 export default defineConfig({
   plugins: [
@@ -61,6 +62,11 @@ export default defineConfig({
   },
   publicDir: 'static',
   css: {
+    postcss: {
+      plugins: [
+        autoprefixer({})
+      ],
+    },
     preprocessorOptions: {
       scss: {
         additionalData: '@import "~/assets/sass/global.scss";'

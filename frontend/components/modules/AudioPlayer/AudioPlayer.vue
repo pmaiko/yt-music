@@ -8,6 +8,10 @@
         {{ track?.artist || '---' }}
       </p>
     </div>
+    <AppLoader :loading="info.isLoadingMetadata" />
+    {{ track && !info.src ? 'error' : '' }}
+    {{ formatDuration(info.currentTime) }}
+    {{ formatDuration(info.duration) }}
     <div
       class="audio-player-progress"
       @click="changeProgressHandler"
@@ -83,6 +87,7 @@
   import { Track } from './types.ts'
   import { useAudio } from './composables/useAudio.ts'
   import Vue3Slider from 'vue3-slider'
+  import AppLoader from '~/components/shared/AppLoader.vue'
 
   const props = defineProps<{
     playlist: Array<Track>
@@ -118,6 +123,14 @@
     destroy
   } = useAudio({ volume, getNextTrack, getPreviousTrack })
 
+  const formatDuration = (durationInSeconds: number) => {
+    const hours = Math.floor(durationInSeconds / 3600)
+    const minutes = Math.floor((durationInSeconds % 3600) / 60)
+    const seconds = Math.floor(durationInSeconds % 60)
+
+    return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
+  }
+
   onBeforeUnmount(() => {
     destroy()
   })
@@ -150,6 +163,7 @@
     width: 100%;
     height: 7px;
     overflow: hidden;
+    cursor: pointer;
     border-radius: 0.5rem;
 
     &__passive,

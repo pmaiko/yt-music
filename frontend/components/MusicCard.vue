@@ -24,7 +24,6 @@
         <h6 class="music-card__description">
           {{ description }}
         </h6>
-
         <button
           @click="openLinks"
           class="music-card__links text-uppercase"
