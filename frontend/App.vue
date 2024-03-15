@@ -4,9 +4,7 @@
 
     <main>
       <Suspense>
-        <MusicPage
-          title="MusicPage"
-        />
+        <MusicPage />
       </Suspense>
     </main>
   </div>

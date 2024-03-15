@@ -75,6 +75,7 @@
       width: 150px;
       height: 84px;
       margin-right: 1rem;
+      cursor: pointer;
     }
 
     &__toggle {

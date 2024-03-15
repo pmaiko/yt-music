@@ -4,15 +4,14 @@
   >
     <slot />
 
-    <BaseIcon
+    <AppLoader
       v-if="loading"
-      icon="spinner"
       class="base-button__loading"
     />
   </button>
 </template>
 <script setup lang="ts">
-  import BaseIcon from '~/components/base/BaseIcon.vue'
+  import AppLoader from '~/components/shared/AppLoader.vue'
 
   const props = defineProps<{
     loading?: boolean
@@ -31,10 +30,11 @@
     font-family: inherit;
     font-size: 1em;
     font-weight: 500;
+    text-transform: uppercase;
     cursor: pointer;
     background-color: $c-primary;
     border: 1px solid transparent;
-    border-radius: 8px;
+    border-radius: 4px;
     transition: border-color 0.25s;
 
     &:hover {
@@ -53,22 +53,10 @@
       width: 1rem;
       height: 1rem;
       margin-left: 1rem;
-      transform-origin: center;
-      animation: rotate 1s infinite;
     }
 
     &_loading {
       pointer-events: none;
-    }
-
-    @keyframes rotate {
-      0% {
-        transform: rotate(0);
-      }
-
-      100% {
-        transform: rotate(360deg);
-      }
     }
   }
 </style>

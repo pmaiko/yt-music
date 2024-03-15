@@ -2,7 +2,7 @@ export interface Track {
   id: string
   title: string // name song
   artist: string
-  album: string | null
+  album: string | undefined
   image: string
   src: string
 }

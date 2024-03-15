@@ -85,7 +85,7 @@
           id: item.id,
           title: item.title,
           artist: item.videoOwnerChannelTitle,
-          album: null,
+          album: undefined,
           image: item.image,
           src: item.src as string
         }
@@ -123,7 +123,7 @@
         id: item.id,
         title: item.title,
         artist: item.videoOwnerChannelTitle,
-        album: null,
+        album: undefined,
         image: item.image,
         src: item.src
       })
@@ -142,7 +142,7 @@
 
     &__player {
       position: sticky;
-      top: 0;
+      top: 0.25rem;
       left: 50%;
       z-index: 99;
     }

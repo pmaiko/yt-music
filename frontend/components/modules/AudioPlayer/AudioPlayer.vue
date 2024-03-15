@@ -1,30 +1,48 @@
 <template>
   <div class="audio-player">
     <div class="audio-player-info">
-      <p class="audio-player-info__title">
-        {{ track?.title || '---' }}
+      <p class="audio-player-info__title bold">
+        {{ track?.title || 'Title' }}
       </p>
-      <p class="audio-player-info__artist">
-        {{ track?.artist || '---' }}
+      <p class="audio-player-info__artist h4 normal">
+        {{ track?.artist || 'Artist' }}
+      </p>
+      <p
+        v-if="track && !info.src"
+        class="audio-player-info__error bold"
+      >
+        Error src
       </p>
     </div>
-    <AppLoader :loading="info.isLoadingMetadata" />
-    {{ track && !info.src ? 'error' : '' }}
-    {{ formatDuration(info.currentTime) }}
-    {{ formatDuration(info.duration) }}
+    <div class="audio-player-info-status">
+      <div class="audio-player-info-status__times h6">
+        <div class="audio-player-info-status__times-current bold">
+          {{ useFormatDuration(info.currentTime) }}
+        </div>
+        <div class="audio-player-info-status__times-duration">
+          {{ useFormatDuration(info.duration) }}
+        </div>
+      </div>
+    </div>
     <div
       class="audio-player-progress"
       @click="changeProgressHandler"
     >
       <div class="audio-player-progress__passive" />
       <div
-        class="audio-player-progress__active audio-player-progress__active_loading"
-        :style="{width: `${info.progressLoading}%`}"
+        v-if="info.isLoadingMetadata"
+        class="audio-player-progress__active audio-player-progress__active_meta"
       />
-      <div
-        class="audio-player-progress__active"
-        :style="{width: `${info.progress}%`}"
-      />
+      <template v-else>
+        <div
+          class="audio-player-progress__active audio-player-progress__active_loading"
+          :style="{width: `${info.progressLoading}%`}"
+        />
+        <div
+          class="audio-player-progress__active"
+          :style="{width: `${info.progress}%`}"
+        />
+      </template>
     </div>
     <div class="audio-player-action">
       <div class="audio-player-action__left">
@@ -72,45 +90,29 @@
       <div class="audio-player-action__right">
         <div class="audio-player-action__volume">
           <Vue3Slider
-            v-model="volume"
+            :modelValue="volume"
             :min="0"
             :max="1"
             :step="0.1"
+            @update:modelValue="setVolumeTrack"
           />
         </div>
       </div>
     </div>
   </div>
 </template>
-<!-- https://www.w3schools.com/tags/ref_av_dom.asp -->
 <script setup lang="ts">
+  import Vue3Slider from 'vue3-slider'
+
   import { Track } from './types.ts'
   import { useAudio } from './composables/useAudio.ts'
-  import Vue3Slider from 'vue3-slider'
-  import AppLoader from '~/components/shared/AppLoader.vue'
+  import { useFormatDuration } from './composables/useFormatDuration.ts'
 
   const props = defineProps<{
     playlist: Array<Track>
   }>()
 
   const volume = ref(1)
-
-  const getNextTrack = (currentTrack: Track) : Track => {
-    const currentTrackIndex = getTrackIndex(currentTrack)
-    const nextTrackIndex = (currentTrackIndex + 1) % props.playlist.length
-    return props.playlist[nextTrackIndex]
-  }
-
-  const getPreviousTrack = (currentTrack: Track) : Track => {
-    const currentTrackIndex = getTrackIndex(currentTrack)
-    const prevTrackIndex = (currentTrackIndex - 1 + props.playlist.length) % props.playlist.length
-
-    return props.playlist[prevTrackIndex]
-  }
-
-  const getTrackIndex = (track: Track) : number => {
-    return props.playlist.findIndex(item => item.id === track.id)
-  }
 
   const {
     info,
@@ -119,17 +121,10 @@
     toggleTrack,
     nextTrack,
     prevTrack,
+    setVolumeTrack,
     changeProgressHandler,
     destroy
-  } = useAudio({ volume, getNextTrack, getPreviousTrack })
-
-  const formatDuration = (durationInSeconds: number) => {
-    const hours = Math.floor(durationInSeconds / 3600)
-    const minutes = Math.floor((durationInSeconds % 3600) / 60)
-    const seconds = Math.floor(durationInSeconds % 60)
-
-    return `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}:${seconds < 10 ? '0' : ''}${seconds}`
-  }
+  } = useAudio(props.playlist)
 
   onBeforeUnmount(() => {
     destroy()
@@ -145,16 +140,35 @@
 <style lang="scss">
   .audio-player {
     width: 400px;
-    padding: 1rem 0;
+    padding: 1rem;
     background-color: transparent;
-    backdrop-filter: blur(3px);
+    backdrop-filter: blur(6px);
+    border-radius: 0.5rem;
   }
 
   .audio-player-info {
     margin-bottom: 1rem;
 
-    &__artist {
+    &__artist,
+    &__error {
       margin-top: 0.5rem;
+    }
+
+    &__error {
+      color: $c-error;
+    }
+  }
+
+  .audio-player-info-status {
+    margin-bottom: 0.25rem;
+
+    &__times {
+      display: flex;
+      justify-content: space-between;
+
+      &-current {
+        background-color: transparent;
+      }
     }
   }
 
@@ -183,9 +197,33 @@
 
     &__active {
       background-color: $c-primary;
+      transition: width 0.3s ease;
 
       &_loading {
         background-color: $c-secondary;
+      }
+
+      &_meta {
+        animation: move 0.7s infinite;
+
+        @keyframes move {
+          0% {
+            transform: translateX(0);
+          }
+
+          50% {
+            transform: translateX(100%);
+          }
+
+          50.001% {
+            transform: translateX(-100%);
+          }
+
+
+          100% {
+            transform: translateX(0);
+          }
+        }
       }
     }
   }
@@ -208,6 +246,7 @@
       width: 7rem;
 
       .vue3-slider {
+        --height: 7px !important;
         --color: #{$c-primary} !important;
         --track-color: #{$c-dark} !important;
       }
