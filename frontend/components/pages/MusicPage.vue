@@ -32,13 +32,18 @@
               </MusicCard>
             </div>
           </div>
-          <BaseButton
-            :loading="state.loading"
-            class="music-page__load-more"
-            @click="loadMore"
+          <div
+            ref="observeElement"
+            data-repeat="true"
           >
-            Load more
-          </BaseButton>
+            <BaseButton
+              :loading="state.loading"
+              class="music-page__load-more"
+              @click="loadMore"
+            >
+              Load more
+            </BaseButton>
+          </div>
         </template>
         <div v-else-if="state.loading">
           Loading...
@@ -58,6 +63,7 @@
   import BaseIcon from '~/components/base/BaseIcon.vue'
   import BaseButton from '~/components/base/BaseButton.vue'
   import AudioPlayer from '~/components/modules/AudioPlayer/AudioPlayer.vue'
+  import ElementObserver from '~/components/helpers/Observer.ts'
 
   const state = reactive<{
     items: Array<MusicItem> | null,
@@ -85,7 +91,7 @@
           id: item.id,
           title: item.title,
           artist: item.videoOwnerChannelTitle,
-          album: undefined,
+          album: null,
           image: item.image,
           src: item.src as string
         }
@@ -123,15 +129,29 @@
         id: item.id,
         title: item.title,
         artist: item.videoOwnerChannelTitle,
-        album: undefined,
+        album: null,
         image: item.image,
         src: item.src
       })
     }
   }
+
+  const observeElement = ref<HTMLElement | null>(null)
+  watch(observeElement, () => {
+    const observer = new ElementObserver(undefined, {
+      onInView: () => {
+        loadMore()
+      }
+    })
+    observer.observe(observeElement.value)
+  })
 </script>
 <style lang="scss">
   .music-page {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
     padding: 0 0 3rem;
 
     &__wrapper {

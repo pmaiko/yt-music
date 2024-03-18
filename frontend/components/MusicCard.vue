@@ -6,7 +6,7 @@
         @click="onPlay"
       >
         <img
-          :src="image"
+          :src="image || undefined"
           alt="image"
         >
         <slot
@@ -16,7 +16,10 @@
       </div>
       <div class="music-card__content">
         <h4 class="music-card__title">
-          {{ title }}
+          <span>{{ title }}</span>
+          <button @click="onCopy(title)">
+            <BaseIcon icon="copy" />
+          </button>
         </h4>
         <h6 class="music-card__owner bold">
           {{ videoOwnerChannelTitle }}
@@ -37,6 +40,7 @@
 <script setup lang="ts">
   import { MusicItem } from '~/types'
   import ModalLinks from '~/components/modals/ModalLinks.vue'
+  import { useClipboard } from '@vueuse/core'
 
   const props = defineProps<MusicItem>()
 
@@ -58,6 +62,17 @@
     })
 
     open()
+  }
+
+  const onCopy = (text: string) => {
+    const { copy } = useClipboard()
+    copy(text)
+
+    notify({
+      title: 'Copied!',
+      text: text,
+      type: 'success'
+    })
   }
 </script>
 <style lang="scss">
@@ -94,6 +109,21 @@
     &__owner,
     &__description {
       margin-top: 0.5rem;
+    }
+
+    &__title {
+      display: flex;
+      align-items: flex-start;
+
+      span {
+        margin-right: 0.5rem;
+      }
+
+      button {
+        margin-left: auto;
+        color: $c-primary;
+        cursor: pointer;
+      }
     }
 
     &__links {

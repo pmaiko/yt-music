@@ -1,7 +1,7 @@
 <template>
-  <div :class="classes">
+  <span :class="classes">
     <FontAwesomeIcon :icon="icons[icon]" />
-  </div>
+  </span>
 </template>
 <script setup lang="ts">
   import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
@@ -20,7 +20,8 @@
     next: ['fas', 'caret-right'],
     prev: ['fas', 'caret-left'],
     link: ['fas', 'link'],
-    spinner: ['fas', 'circle-notch']
+    spinner: ['fas', 'circle-notch'],
+    copy: ['far', 'copy']
   }
 
   const props = withDefaults(defineProps<{
@@ -38,6 +39,7 @@
 <style lang="scss">
   .base-icon {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     justify-content: center;
 

@@ -7,14 +7,14 @@ export const useMediaSession = ({ nextTrack, prevTrack, seekToTrack, toggleTrack
   navigator.mediaSession.setActionHandler('play', toggleTrack)
   navigator.mediaSession.setActionHandler('pause', toggleTrack)
 
-  const setMediaSessionMetaData = (title: string, artist: string, album: string | undefined, image: string) => {
+  const setMediaSessionMetaData = (title: string, artist: string | null, album: string | null, image: string | null) => {
     navigator.mediaSession.metadata = new MediaMetadata({
       title: title,
-      artist: artist,
-      album: album,
+      artist: artist || undefined,
+      album: album || undefined,
       artwork: [
         {
-          src: image
+          src: image || ''
         }
       ]
     })

@@ -32,7 +32,7 @@ export const musicController = async (req, res) => {
   if (items) {
     items = await Promise.all(items.map(async (item) => {
       const videoId = item.snippet.resourceId.videoId
-      const videoOwnerChannelTitle = item.snippet.videoOwnerChannelTitle
+      const videoOwnerChannelTitle = item.snippet.videoOwnerChannelTitle || null
       const title = item.snippet.title
       const description = item.snippet.description
 
@@ -56,10 +56,11 @@ export const musicController = async (req, res) => {
         videoId: videoId,
         title: title,
         description: addThreeDots(description),
-        image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url,
+        image: item.snippet?.thumbnails?.high?.url || item.snippet?.thumbnails?.default?.url || null,
         src: audioSrc,
 
         links: {
+          youtube: `https://www.youtube.com/watch?v=${videoId}`,
           saveFrom: `http://savefrom.net/?url=https://www.youtube.com/watch?v=${videoId}`,
           seFon: [
             await sefonParser(searchStr2),

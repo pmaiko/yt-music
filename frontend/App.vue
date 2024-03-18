@@ -1,8 +1,9 @@
 <template>
   <div class="layout">
     <ModalsContainer />
+    <notifications />
 
-    <main>
+    <main class="page-content">
       <Suspense>
         <MusicPage />
       </Suspense>

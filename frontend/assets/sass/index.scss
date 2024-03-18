@@ -39,6 +39,13 @@ html {
   min-height: 100dvh;
 }
 
+.layout,
+.page-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
 a {
   color: $c-primary;
 }

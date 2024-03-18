@@ -38,6 +38,11 @@ export default defineConfig({
           'vue-final-modal': [
             'useModal'
           ]
+        },
+        {
+          '@kyvg/vue3-notification': [
+            'notify'
+          ]
         }
       ],
       dirs: [

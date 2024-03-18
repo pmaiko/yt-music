@@ -1,11 +1,11 @@
 export interface MusicItem {
   id: string
-  videoOwnerChannelTitle: string
+  videoOwnerChannelTitle: string | null
   videoId: string
   title: string
   description: string
   src: string | null
-  image: string
+  image: string | null
   links: Links
 }
 
