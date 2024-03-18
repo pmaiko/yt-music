@@ -6,7 +6,7 @@ export interface MusicItem {
   description: string
   src: string | null
   image: string | null
-  links: Links
+  links: Links[]
 }
 
 export interface PageInfo {
@@ -16,7 +16,6 @@ export interface PageInfo {
 }
 
 export interface Links {
-  saveFrom: string
-  seFon: [string]
-  fm: [string]
+  label: string,
+  link: string
 }

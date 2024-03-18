@@ -34,6 +34,7 @@ export default defineConfig({
 
       imports: [
         'vue',
+        'vue-router',
         {
           'vue-final-modal': [
             'useModal'

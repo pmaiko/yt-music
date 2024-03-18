@@ -14,9 +14,6 @@ if (process.env.NODE_ENV === 'production') {
   ViteExpress.config({ mode: process.env.NODE_ENV })
   app.use(express.static(resolve(__dirname, '../build')))
   app.use(express.static(resolve(__dirname, '../static')))
-  app.use(express.static(resolve(__dirname, '/tmp')))
-} else {
-  app.use(express.static(resolve(__dirname, '../tmp')))
 }
 
 app.use('/api', apiRouter)

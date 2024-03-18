@@ -1,14 +1,8 @@
 <template>
-  <div class="layout">
-    <ModalsContainer />
-    <notifications />
-
-    <main class="page-content">
-      <Suspense>
-        <MusicPage />
-      </Suspense>
-    </main>
-  </div>
+  <RouterView />
+  <!--<Suspense>-->
+  <!--  <MusicPage />-->
+  <!--</Suspense>-->
   <!--<div>-->
   <!--  <a-->
   <!--    href="https://vitejs.dev"-->
@@ -32,26 +26,5 @@
   <!--  </a>-->
   <!--</div>-->
 </template>
-
 <script setup lang="ts">
-  import { ModalsContainer } from 'vue-final-modal'
-  import MusicPage from '~/components/pages/MusicPage.vue'
-  import '~/helpers/utils.ts'
 </script>
-
-<style lang="scss">
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    transition: filter 300ms;
-    will-change: filter;
-  }
-
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-  }
-
-  .logo.vue:hover {
-    filter: drop-shadow(0 0 2em #42b883aa);
-  }
-</style>

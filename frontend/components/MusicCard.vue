@@ -56,7 +56,6 @@
     const { open } = useModal({
       component: ModalLinks,
       attrs: {
-        src: props.src,
         links: props.links
       }
     })
