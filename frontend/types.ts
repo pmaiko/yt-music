@@ -16,6 +16,7 @@ export interface PageInfo {
 }
 
 export interface Links {
+  id: string,
   label: string,
   link: string
 }
