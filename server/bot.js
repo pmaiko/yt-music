@@ -1,3 +1,4 @@
+import express from 'express'
 import TelegramBot from 'node-telegram-bot-api'
 
 export default function (app) {
@@ -15,7 +16,7 @@ export default function (app) {
     }
   })
 
-  app.post(`/bot${TOKEN}`, (req, res) => {
+  app.post(`/bot${TOKEN}`,  express.json(), (req, res) => {
     bot.processUpdate(req.body)
     res.sendStatus(200)
   })
