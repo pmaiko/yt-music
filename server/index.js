@@ -1,9 +1,12 @@
+import 'dotenv/config'
 import ip from 'ip'
 import express from 'express'
 import ViteExpress from 'vite-express'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'node:url'
 import apiRouter from './router.js'
+
+import './bot.js'
 
 global.__dirname = dirname(fileURLToPath(import.meta.url))
 

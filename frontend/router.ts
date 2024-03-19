@@ -2,7 +2,7 @@ import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router'
 import DefaultLayout from '~/components/layouts/DefaultLayout.vue'
 import MusicPage from '~/components/pages/MusicPage.vue'
 import AboutPage from '~/components/pages/AboutPage.vue'
-// https://stackoverflow.com/questions/70885329/generic-constraint-between-two-properties-of-an-object/70899862#70899862
+
 export type AppRouteRecordRaw = Omit<RouteRecordRaw, 'name' | 'children'> & {
   name: string,
   children?: readonly AppRouteRecordRaw[]
@@ -24,8 +24,6 @@ type PathParams<
       ? PathParams<`:${Rest}`>
       : never;
 
-// type PathArgs<Path extends string> = { [K in PathParams<Path>]: string };
-
 type RequiredParams<Path extends string> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   [K in PathParams<Path> as K extends `${infer _}?` ? never : K]: string
@@ -41,18 +39,12 @@ type PathArgs<Path extends string> = {
 } & {
   [K in keyof OptionalParams<Path>]: string
 };
-// type PathArgs<Path extends string> = { [K in RequiredParams<Path>]: string };
 
-// type GetRouteParam<T extends AppRouteRecordRaw> = PathArgs<T['path']>;
+// type PathArgs<Path extends string> = { [K in RequiredParams<Path>]: string };
 type GetRouteParam<T extends AppRouteRecordRaw> = T extends { children: readonly AppRouteRecordRaw[] }
   ? PathArgs<T['path']> | GetRouteParams<T['children']>
   : PathArgs<T['path']>;
 type GetRouteParams<T extends readonly AppRouteRecordRaw[]> = GetRouteParam<T[number]>
-
-// export type GetRouteParams<T extends AppRouteRecordRaw> = T extends { children: readonly AppRouteRecordRaw[] }
-//   ? PathArgs<T['path']> | GetRouteParams<T['children']>
-//   : PathArgs<T['path']>
-// export type GetRouteParams<T extends string> = PathArgs<T>;
 
 const routes = [
   {

@@ -1,8 +1,5 @@
 <template>
   <div class="layout">
-    <BaseLink :url="{name: 'home', params: null}">Home</BaseLink>
-    <BaseLink :url="{name: 'about.id'}">About</BaseLink>
-
     <ModalsContainer />
     <Notifications />
 
