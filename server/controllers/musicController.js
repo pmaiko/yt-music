@@ -20,7 +20,7 @@ export const musicController = async (req, res) => {
 
   const { data } = await axios.get(host, {
     params: {
-      key: 'AIzaSyAqsPiR5CDAFGEyMwWBhSY2OHbkExcYHh8',
+      key: process.env.APP_GOOGLE_API_KEY,
       part: 'id,snippet',
       playlistId,
       maxResults: perPage,
