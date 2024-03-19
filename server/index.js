@@ -5,8 +5,7 @@ import ViteExpress from 'vite-express'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'node:url'
 import apiRouter from './router.js'
-
-import './bot.js'
+import bot from './bot.js'
 
 global.__dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -20,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use('/api', apiRouter)
+bot(app)
 
 ViteExpress.listen(app, port, () => {
   console.log(`App listening on port http://localhost:${port}`)
