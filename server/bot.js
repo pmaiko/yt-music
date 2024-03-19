@@ -16,7 +16,7 @@ export default function (app) {
   })
 
   app.post(`/bot${TOKEN}`, (req, res) => {
-    bot.processUpdate(JSON.parse(req.body))
+    bot.processUpdate(req.body)
     res.sendStatus(200)
   })
 
