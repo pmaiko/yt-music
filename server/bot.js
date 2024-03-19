@@ -1,5 +1,6 @@
 import express from 'express'
 import TelegramBot from 'node-telegram-bot-api'
+import { MusicService } from './services/MusicService.js'
 
 export default function (app) {
   const TOKEN = process.env.APP_TELEGRAM_BOT_TOKEN
@@ -21,6 +22,55 @@ export default function (app) {
     res.sendStatus(200)
   })
 
+  // /start
+  bot.onText(/\/start/, (msg) => {
+    const chatId = msg.chat.id
+    bot.sendMessage(chatId, 'Hello!', {
+      reply_markup: {
+        keyboard: [
+          [
+            {
+              text: 'get location',
+              request_location: true
+            },
+            {
+              text: 'get contact',
+              request_contact: true
+            },
+            {
+              text: '/playlist'
+            },
+            {
+              text: 'ok'
+            }
+          ],
+          ['close']
+        ],
+        one_time_keyboard: true
+      }
+    })
+  })
+
+  // /test
+  bot.onText(/\/test/, (msg) => {
+    const chatId = msg.chat.id
+    bot.sendMessage(chatId, '<b>Hello!</b>', {
+      parse_mode: 'HTML'
+    })
+  })
+
+  // /playlist
+  bot.onText(/\/playlist/, async (msg) => {
+    const chatId = msg.chat.id
+    const data = await MusicService.get()
+    data.items.forEach(item => {
+      bot.sendMessage(chatId, `<a href="${item.src}">${item.title}!</a>`, {
+        parse_mode: 'HTML'
+      })
+    })
+  })
+
+  // /echo
   bot.onText(/\/echo (.+)/, (msg, match) => {
     const chatId = msg.chat.id
     const resp = match[1]
@@ -29,6 +79,12 @@ export default function (app) {
 
   bot.on('message', (msg) => {
     const chatId = msg.chat.id
-    bot.sendMessage(chatId, 'Received your message1')
+    if (msg.text === 'close') {
+      bot.sendMessage(chatId, 'closed!', {
+        reply_markup: {
+          remove_keyboard: true
+        }
+      })
+    }
   })
 }
