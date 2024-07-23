@@ -19,7 +19,7 @@
 
   const classes = computed(() => [
     'base-button',
-    {'base-button_loading': props.loading}
+    { 'base-button_loading': props.loading }
   ])
 </script>
 <style lang="scss">
