@@ -31,7 +31,7 @@ export default function (app) {
           [
             {
               text: 'Open Web App',
-              web_app: { url: 'http://192.168.60.47:4000/403/test.html' }
+              web_app: { url: 'https://192.168.60.47:4000/403/test.html' }
             },
             {
               text: 'Посетить наш сайт',
