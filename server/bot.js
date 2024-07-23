@@ -30,6 +30,10 @@ export default function (app) {
         keyboard: [
           [
             {
+              text: 'Посетить наш сайт',
+              url: 'http://192.168.60.47:4000/403/test.html'
+            },
+            {
               text: 'get location',
               request_location: true
             },
