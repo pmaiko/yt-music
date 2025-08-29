@@ -2,6 +2,7 @@ import axios from 'axios'
 import ytdl from 'ytdl-core'
 import { sefonParser } from '../helpers/sefonParser.js'
 import { fmParser } from '../helpers/fmParser.js'
+import { mp3wrParser } from '../helpers/mp3wrParser.js'
 import { addThreeDots } from '../helpers/addThreeDots.js'
 
 export class MusicService {
@@ -33,12 +34,14 @@ export class MusicService {
           const info = await ytdl.getInfo(videoId)
           format = ytdl.chooseFormat(info.formats, { quality: '140' })
           audioSrc = format.url
-        } catch (event) {
-          console.error('Error chooseFormat')
+        } catch (error) {
+          console.error('Error chooseFormat', error)
         }
 
         const searchStr1 = (`${videoOwnerChannelTitle} ${title}`).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
         const searchStr2 = (title).replace(/(\([^)]*\)|\[[^\]]*\])/g, '')
+
+        audioSrc = await mp3wrParser(searchStr2)
 
         return {
           id: item.id,

@@ -10,7 +10,7 @@ import bot from './bot.js'
 global.__dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
-const port = 3000
+const port = 3001
 
 if (process.env.NODE_ENV === 'production') {
   ViteExpress.config({ mode: process.env.NODE_ENV })

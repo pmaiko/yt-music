@@ -2,6 +2,8 @@ import { createWebHistory, createRouter, RouteRecordRaw } from 'vue-router'
 import DefaultLayout from '~/components/layouts/DefaultLayout.vue'
 import MusicPage from '~/components/pages/MusicPage.vue'
 import AboutPage from '~/components/pages/AboutPage.vue'
+import TestPage from '~/components/pages/TestPage.vue'
+import Test2Page from '~/components/pages/Test2Page.vue'
 
 export type AppRouteRecordRaw = Omit<RouteRecordRaw, 'name' | 'children'> & {
   name: string,
@@ -66,9 +68,19 @@ const routes = [
         name: 'about.id',
         path: 'about/:id?',
         component: AboutPage
+      },
+      {
+        path: 'test',
+        name: 'text',
+        component: TestPage
+      },
+      {
+        path: 'test2',
+        name: 'test2',
+        component: Test2Page
       }
     ]
-  }
+  },
 ] as const satisfies readonly AppRouteRecordRaw[]
 
 export type Routes = GetRouteNames<typeof routes>

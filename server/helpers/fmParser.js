@@ -6,6 +6,7 @@ const domain = 'https://z3.fm'
 export const fmParser = async (search) => {
   try {
     return `${domain}/mp3/search?keywords=${encodeURIComponent(search)}`
+    // eslint-disable-next-line no-unreachable
     const response = await axios.get(`${domain}`)
     const cookies = response.headers['set-cookie']
     const { data } = await axios.get(`${domain}/mp3/search?keywords=${encodeURIComponent(search)}`, {
@@ -20,7 +21,7 @@ export const fmParser = async (search) => {
     if (sid) {
       return `${domain}/ajax/inc/${sid}`
     }
-  } catch (event) {
-    console.log('Error FmParser')
+  } catch (error) {
+    console.log('Error FmParser', error)
   }
 }

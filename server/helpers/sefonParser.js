@@ -8,6 +8,7 @@ export const sefonParser = async (search) => {
   try {
     return `${domain}/search/?q=${encodeURIComponent(search)}`
 
+    // eslint-disable-next-line no-unreachable
     const { data } = await axios.get(`${domain}/search/?q=${encodeURIComponent(search)}`, {
       headers: {
         'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:52.0) Gecko/20100101 Firefox/52.0'
@@ -36,8 +37,8 @@ export const sefonParser = async (search) => {
         return `${domain}${url}`
       }
     }
-  } catch (event) {
-    console.log('Error SefonParser')
+  } catch (error) {
+    console.log('Error SefonParser', error)
   }
 }
 
