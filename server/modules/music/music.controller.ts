@@ -1,7 +1,7 @@
 import type { Request, Response } from 'express'
 import ffmpeg from 'fluent-ffmpeg'
 import ffmpegPath from '@ffmpeg-installer/ffmpeg'
-import { MusicService } from './music.service'
+import { MusicService } from './music.service.ts'
 
 ffmpeg.setFfmpegPath(ffmpegPath.path)
 
