@@ -2,12 +2,11 @@ import 'dotenv/config'
 import ip from 'ip'
 import express, { type Request, type Response } from 'express'
 import ViteExpress from 'vite-express'
-import { resolve, dirname } from 'path'
-import { fileURLToPath } from 'node:url'
-import apiRouter from './router.ts'
+import { resolve } from 'path'
+import apiRouter from './router'
 import tgBot from './modules/tg-bot/index'
 
-(global as any).__dirname = dirname(fileURLToPath(import.meta.url))
+// (global as any).__dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const port = 3001
