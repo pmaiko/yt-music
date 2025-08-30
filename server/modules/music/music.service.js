@@ -1,6 +1,6 @@
 import axios from 'axios'
 import ytdl from 'ytdl-core'
-import { addThreeDots } from '../helpers/addThreeDots.js'
+import { addThreeDots } from '../../helpers/addThreeDots.js'
 import { sefonParser } from './parsers/sefonParser.js'
 import { fmParser } from './parsers/fmParser.js'
 import { mp3wrParser } from './parsers/mp3wrParser.js'

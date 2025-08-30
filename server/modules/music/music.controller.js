@@ -1,12 +1,6 @@
 import ffmpeg from 'fluent-ffmpeg'
 import ffmpegPath from '@ffmpeg-installer/ffmpeg'
-
-import { MusicService } from '../services/MusicService.js'
-// import { HttpsProxyAgent } from 'https-proxy-agent'
-//
-// console.log(HttpsProxyAgent)
-// const proxy = 'http://23.227.38.217'
-// const agent = new HttpsProxyAgent(proxy)
+import { MusicService } from './music.service.js'
 
 ffmpeg.setFfmpegPath(ffmpegPath.path)
 

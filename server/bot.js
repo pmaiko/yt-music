@@ -1,6 +1,6 @@
 import express from 'express'
 import TelegramBot from 'node-telegram-bot-api'
-import { MusicService } from './services/MusicService.js'
+import { MusicService } from './modules/music/music.service.js'
 
 export default function (app) {
   const TOKEN = process.env.APP_TELEGRAM_BOT_TOKEN

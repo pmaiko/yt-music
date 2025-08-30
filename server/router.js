@@ -1,4 +1,4 @@
-import { musicController } from './controllers/musicController.js'
+import { musicController } from './modules/music/music.controller.js'
 import express from 'express'
 
 const apiRouter = express.Router()
