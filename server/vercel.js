@@ -1,1 +1,1 @@
-import '../build/server/index.js'
+import '../build-server/index.js'
