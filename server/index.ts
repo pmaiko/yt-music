@@ -4,8 +4,8 @@ import ip from 'ip'
 import express, { type Request, type Response } from 'express'
 import ViteExpress from 'vite-express'
 import { resolve } from 'path'
-import apiRouter from './router.ts'
-import tgBot from './modules/tg-bot/index.ts'
+import apiRouter from './router'
+import tgBot from './modules/tg-bot/index'
 
 // (global as any).__dirname = dirname(fileURLToPath(import.meta.url))
 

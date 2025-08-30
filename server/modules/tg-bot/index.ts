@@ -1,6 +1,6 @@
 import express, { type Express, type Request, type Response } from 'express'
 import TelegramBot from 'node-telegram-bot-api'
-import { MusicService } from '../music/music.service.ts'
+import { MusicService } from '../music/music.service'
 
 export default function (app: Express) {
   const isProd = process.env.NODE_ENV === 'production'

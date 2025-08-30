@@ -1,5 +1,5 @@
 import express, { type Request, type Response } from 'express'
-import { musicController } from './modules/music/music.controller.ts'
+import { musicController } from './modules/music/music.controller'
 
 const apiRouter = express.Router()
 
