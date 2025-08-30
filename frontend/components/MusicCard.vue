@@ -1,5 +1,10 @@
 <template>
-  <article class="music-card">
+  <article
+    :class="[
+      'music-card',
+      {'music-card_active': active},
+    ]"
+  >
     <div class="music-card__inner">
       <div
         class="music-card__image"
@@ -76,6 +81,10 @@
 </script>
 <style lang="scss">
   .music-card {
+    &_active {
+      color: $c-primary;
+    }
+
     &__inner {
       display: flex;
     }

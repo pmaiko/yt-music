@@ -1,9 +1,9 @@
 import axios from 'axios'
 import ytdl from 'ytdl-core'
-import { sefonParser } from '../helpers/sefonParser.js'
-import { fmParser } from '../helpers/fmParser.js'
-import { mp3wrParser } from '../helpers/mp3wrParser.js'
 import { addThreeDots } from '../helpers/addThreeDots.js'
+import { sefonParser } from './parsers/sefonParser.js'
+import { fmParser } from './parsers/fmParser.js'
+import { mp3wrParser } from './parsers/mp3wrParser.js'
 
 export class MusicService {
   static async get ({ playlistId, pageToken, perPage } = {}) {
@@ -20,6 +20,7 @@ export class MusicService {
     })
 
     let items = data.items || null
+
     if (items) {
       items = await Promise.all(items.map(async (item) => {
         const videoId = item.snippet.resourceId.videoId

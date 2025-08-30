@@ -6,8 +6,8 @@
           v-if="state.items"
         >
           <AudioPlayer
-            ref="audioPlayer"
             v-if="playlist"
+            ref="audioPlayer"
             :playlist="playlist"
             class="music-page__player"
           />
@@ -21,6 +21,7 @@
             >
               <MusicCard
                 v-bind="item"
+                :active="audioPlayerTrack?.id === item.id"
                 @clickImage="playTrack(item)"
               >
                 <template v-slot:playPause="{className}">
@@ -112,8 +113,8 @@
         state.items = data.items
       }
       state.pageInfo = data.pageInfo
-    } catch (event) {
-      console.log(event)
+    } catch (error) {
+      console.log(error)
     } finally {
       state.loading = false
     }

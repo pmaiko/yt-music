@@ -7,6 +7,7 @@ export interface MusicItem {
   src: string | null
   image: string | null
   links: Links[]
+  active: boolean
 }
 
 export interface PageInfo {

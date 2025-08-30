@@ -124,7 +124,7 @@
     setVolumeTrack,
     changeProgressHandler,
     destroy
-  } = useAudio(props.playlist)
+  } = useAudio(() => props.playlist)
 
   onBeforeUnmount(() => {
     destroy()

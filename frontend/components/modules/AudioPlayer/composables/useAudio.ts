@@ -1,7 +1,10 @@
 import { Track, Info } from '../types.ts'
 import { useMediaSession } from '../composables/useMediaSession.ts'
+import { MaybeRefOrGetter } from 'vue'
 
-export const useAudio = (playlist: Array<Track>) => {
+export const useAudio = (initialPlaylist: MaybeRefOrGetter<Array<Track>>) => {
+  const playlist = computed(() => toValue(initialPlaylist))
+  
   const playTrack = async (newTrack: Track) => {
     info.isLoadingMetadata = true
 
@@ -45,11 +48,11 @@ export const useAudio = (playlist: Array<Track>) => {
   }
 
   const nextTrack = () => {
-    track.value && playTrack(getNextTrack(track.value, playlist))
+    track.value && playTrack(getNextTrack(track.value, playlist.value))
   }
 
   const prevTrack = () => {
-    track.value && playTrack(getPreviousTrack(track.value, playlist))
+    track.value && playTrack(getPreviousTrack(track.value, playlist.value))
   }
 
   const seekToTrack = (details: MediaSessionActionDetails) => {
