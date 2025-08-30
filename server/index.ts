@@ -12,7 +12,7 @@ const port = 3001
 app.use('/api', apiRouter)
 tgBot(app)
 
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.resolve(__dirname, '../build')))
   app.use(express.static(path.resolve(__dirname, '../static')))
 
