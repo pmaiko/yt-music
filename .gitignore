@@ -1,6 +1,7 @@
 # Logs
 .idea
 build
+build-server
 tmp/*.mp3
 logs
 *.log
