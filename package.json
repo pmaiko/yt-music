@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "server/index.ts",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "dev": "nodemon --watch server server/index.ts",
     "start": "ts-node server/index.ts",
