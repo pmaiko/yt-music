@@ -12,17 +12,17 @@ import tgBot from './modules/tg-bot/index.ts'
 const app = express()
 const port = 3001
 
-if (process.env.NODE_ENV === 'production') {
-  ViteExpress.config({ mode: process.env.NODE_ENV })
-  app.use(express.static(resolve(__dirname, '../build')))
-}
+// app.get('*', (req, res) => {
+//   res.sendFile(resolve(__dirname, '../build/index.html'));
+// });
+
+// if (process.env.NODE_ENV === 'production') {
+//   ViteExpress.config({ mode: process.env.NODE_ENV })
+//   app.use(express.static(resolve(__dirname, '../build')))
+// }
 
 app.use('/api', apiRouter)
 tgBot(app)
-
-app.get('*', (_req: Request, res: Response) => {
-  res.sendFile(resolve(__dirname, '../build/index.html'))
-})
 
 ViteExpress.listen(app, port, () => {
   console.log(`App listening on port http://localhost:${port}`)
