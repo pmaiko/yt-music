@@ -1,9 +1,9 @@
 import axios from 'axios'
 import ytdl from 'ytdl-core'
-import { addThreeDots } from '../../helpers/addThreeDots.ts'
-import { sefonParser } from './parsers/sefonParser.ts'
-import { fmParser } from './parsers/fmParser.ts'
-import { mp3wrParser } from './parsers/mp3wrParser.ts'
+import { addThreeDots } from '../../helpers/addThreeDots'
+import { sefonParser } from './parsers/sefonParser'
+import { fmParser } from './parsers/fmParser'
+import { mp3wrParser } from './parsers/mp3wrParser'
 
 export class MusicService {
   static async get({ playlistId, pageToken, perPage }: any = {}) {
