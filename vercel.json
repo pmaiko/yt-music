@@ -1,11 +1,16 @@
 {
+  "version": 2,
   "builds": [
-    { "src": "server/vercel.js", "use": "@vercel/node" },
-    { "src": "build/**", "use": "@vercel/static" }
+    {
+      "src": "server/vercel.js",
+      "use": "@vercel/node"
+    }
   ],
   "routes": [
-    { "src": "/api/(.*)", "dest": "server/vercel.js" },
-    { "src": "/(.*)", "dest": "build/index.html" }
-  ],
-  "rewrites": [{ "source": "/:path*", "destination": "/build/index.html" }]
+    {
+      "src": "/(.*)",
+      "dest": "server/vercel.js",
+      "methods": ["GET", "POST", "PUT", "DELETE"]
+    }
+  ]
 }
