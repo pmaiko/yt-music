@@ -1,4 +1,3 @@
-import 'tsconfig-paths/register.js'
 import 'dotenv/config'
 import ip from 'ip'
 import express, { type Request, type Response } from 'express'
