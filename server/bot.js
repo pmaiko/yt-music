@@ -3,21 +3,45 @@ import TelegramBot from 'node-telegram-bot-api'
 import { MusicService } from './modules/music/music.service.js'
 
 export default function (app) {
+  const isProd = process.env.NODE_ENV === 'production'
+
   const TOKEN = process.env.APP_TELEGRAM_BOT_TOKEN
   const URL = process.env.PUBLIC_URL
-  const bot = new TelegramBot(TOKEN, { polling: process.env.NODE_ENV !== 'production' })
+  const bot = new TelegramBot(TOKEN, { polling: !isProd })
 
-  app.get('/setWebHook/:url?', async (req, res) => {
+  if (isProd) {
+    const webhookUrl = `${process.env.PUBLIC_URL}/bot${TOKEN}`
+    bot.setWebHook(webhookUrl)
+      .then(data => console.log('Webhook set successfully:', webhookUrl, data))
+      .catch(err => console.error('Error setting webhook:', err))
+  }
+
+  app.get('/bot/me', async (req, res) => {
+    const data = await bot.getMe()
+    res.send(data)
+  })
+
+  app.get('/bot/setWebHook/:url?', async (req, res) => {
     const paramUrl = req.params.url
     try {
       const data = await bot.setWebHook(`${paramUrl || URL}/bot${TOKEN}`)
-      res.send(data)
+      res.send('Webhook set successfully:', data)
     } catch (error) {
-      return res.send(error)
+      return res.send('Error setting webhook:', error)
     }
   })
 
-  app.post(`/bot${TOKEN}`,  express.json(), (req, res) => {
+  app.get('/bot/getWebHookInfo', async (req, res) => {
+    const data = await bot.getWebHookInfo()
+    res.send(data)
+  })
+
+  app.get('/bot/deleteWebHook', async (req, res) => {
+    const data = await bot.deleteWebHook()
+    res.send(data)
+  })
+
+  app.post(`/bot${TOKEN}`, express.json(), (req, res) => {
     bot.processUpdate(req.body)
     res.sendStatus(200)
   })
