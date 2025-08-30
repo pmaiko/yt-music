@@ -8,7 +8,7 @@
     "dev": "nodemon --watch server server/index.ts",
     "start": "ts-node server/index.ts",
     "start-prod": "NODE_ENV=production node server/index.ts",
-    "build": "vue-tsc && vite build",
+    "build": "vue-tsc && vite build && npm run buiild-server",
     "vercel-build": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -36,7 +36,6 @@
     "ip": "^2.0.1",
     "node-html-parser": "^6.1.12",
     "node-telegram-bot-api": "^0.65.1",
-    "tsconfig-paths": "^4.2.0",
     "vite-express": "^0.15.0",
     "vue": "^3.5.20",
     "vue-final-modal": "^4.5.4",
