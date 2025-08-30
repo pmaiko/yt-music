@@ -4,7 +4,7 @@ import { parse } from 'node-html-parser'
 // import { HttpsProxyAgent } from 'https-proxy-agent'
 const domain = 'https://ru.sefon.pro'
 
-export const sefonParser = async (search) => {
+export const sefonParser = async (search: string) => {
   try {
     return `${domain}/search/?q=${encodeURIComponent(search)}`
 
@@ -42,11 +42,11 @@ export const sefonParser = async (search) => {
   }
 }
 
-function decodeHref (hrefAttribute, keysAttribute) {
+function decodeHref (hrefAttribute: any, keysAttribute: any) {
   let url = hrefAttribute.substring(0, 1) === '#' ? hrefAttribute.substring(1) : hrefAttribute
   const keysArray = keysAttribute.split('').reverse()
 
-  keysArray.forEach(function (key) {
+  keysArray.forEach(function (key: any) {
     url = url.split(key).reverse().join(key)
   })
 

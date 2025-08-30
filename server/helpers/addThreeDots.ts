@@ -1,4 +1,4 @@
-export function addThreeDots (text, limit = 200) {
+export function addThreeDots (text: string, limit = 200): string {
   text = text.trim()
   if (text.length <= limit) return text
   text = text.slice(0, limit)

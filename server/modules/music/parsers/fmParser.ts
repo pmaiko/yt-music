@@ -3,16 +3,16 @@ import axios from 'axios'
 import { parse } from 'node-html-parser'
 
 const domain = 'https://z3.fm'
-export const fmParser = async (search) => {
+export const fmParser = async (search: string) => {
   try {
     return `${domain}/mp3/search?keywords=${encodeURIComponent(search)}`
     // eslint-disable-next-line no-unreachable
     const response = await axios.get(`${domain}`)
-    const cookies = response.headers['set-cookie']
+    const cookies = response.headers['set-cookie'] || []
     const { data } = await axios.get(`${domain}/mp3/search?keywords=${encodeURIComponent(search)}`, {
       headers: {
         'Cookie': cookies.join('; ')
-      },
+      } as any,
     })
     const root = parse(data)
     const $blocksMp3 = root.querySelectorAll('.whb_wrap .song-download')

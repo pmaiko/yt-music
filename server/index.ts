@@ -1,13 +1,13 @@
 import 'dotenv/config'
 import ip from 'ip'
-import express from 'express'
+import express, { type Request, type Response } from 'express'
 import ViteExpress from 'vite-express'
 import { resolve, dirname } from 'path'
 import { fileURLToPath } from 'node:url'
-import apiRouter from './router.js'
-import bot from './bot.js'
+import apiRouter from './router.ts'
+import tgBot from './modules/tg-bot/index.ts'
 
-global.__dirname = dirname(fileURLToPath(import.meta.url))
+(global as any).__dirname = dirname(fileURLToPath(import.meta.url))
 
 const app = express()
 const port = 3001
@@ -18,9 +18,9 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 app.use('/api', apiRouter)
-bot(app)
+tgBot(app)
 
-app.get('*', (req, res) => {
+app.get('*', (_req: Request, res: Response) => {
   res.sendFile(resolve(__dirname, '../build/index.html'))
 })
 

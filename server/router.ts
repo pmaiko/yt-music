@@ -1,16 +1,16 @@
-import { musicController } from './modules/music/music.controller.js'
-import express from 'express'
+import express, { type Request, type Response } from 'express'
+import { musicController } from './modules/music/music.controller.ts'
 
 const apiRouter = express.Router()
 
 apiRouter.get('/music', musicController)
-apiRouter.get('/test', (req, res) => {
+apiRouter.get('/test', (_req: Request, res: Response) => {
   res.setHeader('Content-Type', 'text/html; charset=utf-8')
   res.setHeader('Transfer-Encoding', 'chunked')
   let body = `
     <html>
     <body>
-    Привет
+    HELLO WORLD
   `
 
   setTimeout(() => {
@@ -35,7 +35,7 @@ apiRouter.get('/sse', (req, res) => {
 
   const intervalId = setInterval(() => {
     counter++
-    res.write(`data: Новое сообщение ${counter}\n\n`)
+    res.write(`data: New message ${counter}\n\n`)
   }, 2000)
 
   req.on('close', () => {

@@ -3,7 +3,7 @@ import { parse } from 'node-html-parser'
 
 const domain = 'https://mp3wr.com'
 
-export const mp3wrParser = async (search) => {
+export const mp3wrParser = async (search: string) => {
   try {
     const slug = search
       .toLowerCase()

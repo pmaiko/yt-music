@@ -1,12 +1,12 @@
 import axios from 'axios'
 import ytdl from 'ytdl-core'
-import { addThreeDots } from '../../helpers/addThreeDots.js'
-import { sefonParser } from './parsers/sefonParser.js'
-import { fmParser } from './parsers/fmParser.js'
-import { mp3wrParser } from './parsers/mp3wrParser.js'
+import { addThreeDots } from '../../helpers/addThreeDots.ts'
+import { sefonParser } from './parsers/sefonParser.ts'
+import { fmParser } from './parsers/fmParser.ts'
+import { mp3wrParser } from './parsers/mp3wrParser.ts'
 
 export class MusicService {
-  static async get ({ playlistId, pageToken, perPage } = {}) {
+  static async get({ playlistId, pageToken, perPage }: any = {}) {
     const host = 'https://www.googleapis.com/youtube/v3/playlistItems'
 
     const { data } = await axios.get(host, {
@@ -22,7 +22,7 @@ export class MusicService {
     let items = data.items || null
 
     if (items) {
-      items = await Promise.all(items.map(async (item) => {
+      items = await Promise.all(items.map(async (item: any) => {
         const videoId = item.snippet.resourceId.videoId
         const videoOwnerChannelTitle = item.snippet.videoOwnerChannelTitle || null
         const title = item.snippet.title
