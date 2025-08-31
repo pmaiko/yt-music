@@ -1,7 +1,7 @@
 import type { Request, Response, Router } from 'express'
 import multer from 'multer'
 import { MusicService } from './music.service'
-import { StorageService } from '../storage/storage.service.ts'
+import { StorageService } from '../storage/storage.service'
 
 const storage = multer.memoryStorage()
 const upload = multer({ storage })
