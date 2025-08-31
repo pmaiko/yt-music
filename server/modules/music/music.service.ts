@@ -1,9 +1,13 @@
 import axios from 'axios'
 import ytdl from 'ytdl-core'
+import ffmpeg from 'fluent-ffmpeg'
+import ffmpegPath from '@ffmpeg-installer/ffmpeg'
 import { addThreeDots } from '../../helpers/addThreeDots'
-import { sefonParser } from './parsers/sefonParser'
-import { fmParser } from './parsers/fmParser'
-import { mp3wrParser } from './parsers/mp3wrParser'
+import { sefonParser } from './parsers/sefon.parser'
+import { fmParser } from './parsers/fm.parser'
+import { mp3wrParser } from './parsers/mp3wr.parser'
+
+ffmpeg.setFfmpegPath(ffmpegPath.path)
 
 export class MusicService {
   static async get({ playlistId, pageToken, perPage }: any = {}) {
