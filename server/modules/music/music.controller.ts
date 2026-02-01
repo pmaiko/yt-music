@@ -41,7 +41,7 @@ export class MusicController {
 
     const buffer = Buffer.from(audio.buffer)
 
-    const storage = new StorageService()
+    const storage = new StorageService('' as unknown as any)
     const data = await storage.uploadFile(buffer, 'audio', audio.mimetype)
 
     return res.json({
@@ -55,7 +55,7 @@ export class MusicController {
   async getFilename (req: Request, res: Response) {
     const fileName = req.params.filename
 
-    const storage = new StorageService()
+    const storage = new StorageService('' as unknown as any)
 
     const file = await storage.getFileByName(fileName)
     if (!file) {
