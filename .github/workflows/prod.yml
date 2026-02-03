@@ -1,0 +1,16 @@
+name: Prod Build
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-prod:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run make prod
+        run: make prod
