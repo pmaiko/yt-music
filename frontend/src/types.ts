@@ -13,7 +13,7 @@ export interface MusicItem {
 export interface PageInfo {
   total: number | null,
   perPage: number,
-  pageToken: | null
+  nextPageToken: | null
 }
 
 export interface Links {

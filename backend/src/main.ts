@@ -7,6 +7,7 @@ async function bootstrap() {
     bufferLogs: true,
   });
   app.useLogger(app.get(MyLogger));
+  console.log('process.env.PORT', process.env.PORT);
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

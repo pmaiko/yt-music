@@ -1,0 +1,14 @@
+#  Docker Compose сам автоматически подхватывает .env только для подстановки в docker-compose.yml (например ${VAR}), но не в контейнер.
+#  Если хочешь, чтобы Node.js или любое другое приложение внутри контейнера реально видело эти переменные — нужно явно указать:
+#  env_file:
+#    - ./.env
+
+# :ro - read only
+
+networks:
+  custom_network:
+    name: "${PROJECT_PREFIX}-custom_network"
+    driver: bridge
+
+volumes:
+  db-data:

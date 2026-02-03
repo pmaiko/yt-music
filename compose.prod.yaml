@@ -1,0 +1,25 @@
+services:
+  frontend:
+    container_name: "${PROJECT_PREFIX}-frontend"
+    build:
+      context: ./frontend
+      args:
+        VITE_SERVER_PORT: ${FRONTEND_PORT}
+        VITE_API_URL: ${FRONTEND_API_URL}
+    ports:
+      - "4000:4000"
+    networks:
+      - custom_network
+    environment:
+      VITE_SERVER_PORT: ${FRONTEND_PORT}
+      VITE_API_URL: ${FRONTEND_API_URL}
+
+  backend:
+    container_name: "${PROJECT_PREFIX}-backend"
+    build:
+      context: ./backend
+    networks:
+      - custom_network
+    environment:
+      PORT: ${BACKEND_PORT}
+      APP_GOOGLE_API_KEY: ${APP_GOOGLE_API_KEY}

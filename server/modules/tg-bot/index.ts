@@ -6,7 +6,7 @@ export default function (app: Express) {
   const isProd = process.env.NODE_ENV === 'production'
 
   const TOKEN: string = process.env.APP_TELEGRAM_BOT_TOKEN as string
-  const URL = process.env.APP_PUBLIC_URL as string
+  const URL = process.env.DOOOO as string
 
   const botInstance = new TelegramBot(TOKEN, { polling: !isProd })
 

@@ -106,13 +106,13 @@
   const fetchMusic = async (loadMore = false) => {
     try {
       state.loading = true
-      const { data } = await useApi().getMusic(loadMore && state.pageInfo?.pageToken || null)
+      const { data } = await useApi().getMusic(loadMore && state.pageInfo?.nextPageToken || null)
       if (loadMore) {
-        state.items = [...(state.items || []), ...data.items]
+        state.items = [...(state.items || []), ...data.data]
       } else {
-        state.items = data.items
+        state.items = data.data
       }
-      state.pageInfo = data.pageInfo
+      state.pageInfo = data.meta
     } catch (error) {
       console.log(error)
     } finally {
