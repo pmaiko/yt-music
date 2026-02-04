@@ -26,5 +26,7 @@ services:
     networks:
       - custom_network
     environment:
+      SERVER_ADDRESS: ${SERVER_ADDRESS}
       PORT: ${BACKEND_PORT}
-      APP_GOOGLE_API_KEY: ${APP_GOOGLE_API_KEY}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY}

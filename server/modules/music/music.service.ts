@@ -15,7 +15,7 @@ export class MusicService {
 
     const { data } = await axios.get(host, {
       params: {
-        key: process.env.APP_GOOGLE_API_KEY,
+        key: process.env.GOOGLE_API_KEY,
         part: 'id,snippet',
         playlistId: playlistId || 'PLRUeMuoAjPeAEAPYC6wOWTkto-fXC5GRh',
         maxResults: perPage || 10,

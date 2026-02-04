@@ -17,7 +17,7 @@ export class YtMusicService {
   ) {
     this.youtube = google.youtube({
       version: 'v3',
-      auth: this.configService.get('APP_GOOGLE_API_KEY') as string,
+      auth: this.configService.get('googleApiKey') as string,
     });
   }
 
