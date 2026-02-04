@@ -27,5 +27,4 @@
   <!--</div>-->
 </template>
 <script setup lang="ts">
-  alert('Privet')
 </script>
