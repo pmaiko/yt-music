@@ -27,5 +27,4 @@
   <!--</div>-->
 </template>
 <script setup lang="ts">
-  console.log(12)
 </script>

@@ -1,6 +1,6 @@
 # Logs
 .idea
-build
+dist
 build-server
 tmp/*.mp3
 logs

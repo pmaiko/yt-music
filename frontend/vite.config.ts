@@ -68,7 +68,7 @@ export default defineConfig((configEnv: ConfigEnv) => {
     build: {
       target: 'esnext',
       outDir: 'dist',
-      copyPublicDir: false
+      // copyPublicDir: false
     },
     resolve: {
       alias: {
@@ -76,7 +76,7 @@ export default defineConfig((configEnv: ConfigEnv) => {
         '@': '/src',
       }
     },
-    publicDir: 'static',
+    publicDir: 'public',
     css: {
       postcss: {
         plugins: [
