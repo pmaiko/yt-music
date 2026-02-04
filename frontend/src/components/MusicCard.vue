@@ -22,12 +22,12 @@
       <div class="music-card__content">
         <h4 class="music-card__title">
           <span>{{ title }}</span>
-          <button @click="onCopy(title)">
+          <button @click="onCopy(title!)">
             <BaseIcon icon="copy" />
           </button>
         </h4>
         <h6 class="music-card__owner bold">
-          {{ videoOwnerChannelTitle }}
+          {{ author }}
         </h6>
         <h6 class="music-card__description">
           {{ description }}

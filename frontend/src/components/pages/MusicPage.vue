@@ -86,15 +86,15 @@
 
   const playlist = computed<Array<Track> | null>(() => {
     return state.items
-      ?.filter(item => item.src)
+      ?.filter(item => item.audio.src)
       ?.map(item => {
         return {
           id: item.id,
-          title: item.title,
-          artist: item.videoOwnerChannelTitle,
+          title: item.title!,
+          artist: item.author,
           album: null,
           image: item.image,
-          src: item.src as string
+          src: item.audio.src!
         }
       }) || null
   })
@@ -125,14 +125,14 @@
   }
 
   const playTrack = (item: MusicItem) => {
-    if (item.src) {
+    if (item.audio.src) {
       audioPlayer.value?.toggleTrack({
         id: item.id,
-        title: item.title,
-        artist: item.videoOwnerChannelTitle,
+        title: item.title!,
+        artist: item.author,
         album: null,
         image: item.image,
-        src: item.src
+        src: item.audio.src
       })
     }
   }

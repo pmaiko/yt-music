@@ -1,12 +1,16 @@
 export interface MusicItem {
-  id: string
-  videoOwnerChannelTitle: string | null
-  videoId: string
-  title: string
-  description: string
-  src: string | null
-  image: string | null
-  links: Links[]
+  id: string,
+  author: string | null,
+  title: string | null,
+  description: string | null,
+  image: string | null,
+  audio: {
+    src: string | null,
+  },
+  youtube: {
+    videoId: string | null,
+  }
+  links: [],
   active: boolean
 }
 
