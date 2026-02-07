@@ -22,7 +22,7 @@ export class TelegramController {
     const bot = this.telegramService.getBot();
     try {
       await bot.setWebHook(
-        `${url || this.configService.get('serverAddress')}/bot${this.configService.get('telegramBotToken')}`,
+        `${url || this.configService.get('serverAddress')}/api/bot${this.configService.get('telegramBotToken')}`,
       );
       return this.getWebHookInfo();
     } catch (error: unknown) {
