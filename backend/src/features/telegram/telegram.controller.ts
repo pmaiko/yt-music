@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Param, HttpCode } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  HttpCode,
+  NotFoundException,
+} from '@nestjs/common';
 import TelegramBot from 'node-telegram-bot-api';
 import { ConfigService } from '@nestjs/config';
 import { TelegramService } from './telegram.service';
@@ -17,12 +25,12 @@ export class TelegramController {
     return await bot.getMe();
   }
 
-  @Get('/bot/setWebHook/:url')
-  async setWebHook(@Param('url') url?: string) {
+  @Get('/bot/setWebHook/:host')
+  async setWebHook(@Param('host') host: string) {
     const bot = this.telegramService.getBot();
     try {
       await bot.setWebHook(
-        `${url || this.configService.get('serverAddress')}/api/bot${this.configService.get('telegramBotToken')}`,
+        `${host}/api/bot/update/${this.configService.get('telegramBotToken')}`,
       );
       return this.getWebHookInfo();
     } catch (error: unknown) {
@@ -43,8 +51,14 @@ export class TelegramController {
   }
 
   @HttpCode(200)
-  @Post(`/bot${process.env.TELEGRAM_BOT_TOKEN}`)
-  processUpdate(@Body() body: TelegramBot.Update) {
+  @Post('/bot/update/:token')
+  processUpdate(
+    @Param('token') token: string,
+    @Body() body: TelegramBot.Update,
+  ) {
+    if (token !== this.configService.get('telegramBotToken')) {
+      return new NotFoundException();
+    }
     const bot = this.telegramService.getBot();
     bot.processUpdate(body);
   }
