@@ -7,7 +7,8 @@ import { RequestModule } from './common/request/request.module';
 import { HelperModule } from './common/services/helper.module';
 import { MusicModule } from './features/music/music.module';
 import { CatsModule } from './features/cats/cats.module';
-import { TelegramModule } from './telegram/telegram.module';
+import { TelegramModule } from './features/telegram/telegram.module';
+import { StorageModule } from './features/storage/storage.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -22,6 +23,7 @@ import configuration from './config/configuration';
     MusicModule,
     CatsModule,
     TelegramModule,
+    StorageModule,
   ],
   controllers: [AppController],
   providers: [AppService],

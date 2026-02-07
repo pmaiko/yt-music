@@ -1,7 +1,17 @@
-export default () => ({
-  serverAddress: process.env.SERVER_ADDRESS,
+const vars = {
+  serverAddress: process.env.SERVER_ADDRESS || '',
   port: process.env.PORT || 3000,
   isProd: process.env.NODE_ENV === 'production',
-  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN,
-  googleApiKey: process.env.GOOGLE_API_KEY,
-});
+  telegramBotToken: process.env.TELEGRAM_BOT_TOKEN || '',
+  googleApiKey: process.env.GOOGLE_API_KEY || '',
+  googleServiceAccountKey: process.env.GOOGLE_SERVICE_ACCOUNT_KEY || '',
+  googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+  googleClientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+  googleRefreshToken: process.env.GOOGLE_REFRESH_TOKEN || '',
+  googleRedirectUri: process.env.GOOGLE_REDIRECT_URI || '',
+  googleDriveFolderId: process.env.GOOGLE_DRIVE_FOLDER_ID || '',
+} as const;
+
+export default () => vars;
+
+export type EnvironmentVariables = typeof vars;

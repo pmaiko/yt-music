@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TelegramService } from './telegram.service';
 import { TelegramController } from './telegram.controller';
-import { MusicModule } from '../features/music/music.module';
+import { MusicModule } from '../music/music.module';
 
 @Module({
   imports: [MusicModule],

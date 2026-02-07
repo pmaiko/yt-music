@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { lookup } from 'mime-types';
 
 @Injectable()
 export class HelperService {
@@ -18,5 +19,9 @@ export class HelperService {
       text = text.substr(0, lastSpace);
     }
     return text + '...';
+  }
+
+  getMimeType(filename: string): string {
+    return lookup(filename) || '';
   }
 }

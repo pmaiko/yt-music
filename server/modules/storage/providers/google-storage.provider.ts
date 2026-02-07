@@ -3,14 +3,13 @@ import { Readable } from 'stream'
 import { drive_v3, google } from 'googleapis'
 import { JWT } from 'google-auth-library/build/src/auth/jwtclient'
 import { OAuth2Client } from 'google-auth-library/build/src/auth/oauth2client'
-import { IStorageProvider } from '../interfaces/storage-provider.interface.ts'
 import { getMimeType } from '../utils/get-mime-type.ts'
 type AuthType = JWT | OAuth2Client
 
 const apiKeys = JSON.parse(process.env.APP_GOOGLE_SERVICE_ACCOUNT_KEY!)
 const SCOPES = ['https://www.googleapis.com/auth/drive']
 
-export class GoogleStorageProvider implements IStorageProvider {
+export class GoogleStorageProvider {
   authClient!: AuthType
 
   constructor() {
@@ -41,6 +40,32 @@ export class GoogleStorageProvider implements IStorageProvider {
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Error authorizing Google Drive API: ${error.message}`)
+      }
+    }
+  }
+
+  async listFiles() {
+    const drive = google.drive({ version: 'v3', auth: this.authClient })
+
+    try {
+      const response = await drive.files.list({
+        pageSize: 100,
+        fields: 'nextPageToken, files(id, name)',
+        q: `'${process.env.APP_GOOGLE_DRIVE_FOLDER_ID}' in parents and trashed = false`,
+      })
+
+      const files = response.data.files
+      if (files?.length) {
+        console.log('Available files:')
+        files.forEach(file => {
+          console.log(`${file.name} (${file.id})`)
+        })
+      } else {
+        console.log('No files found.')
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Error listing files in Google Drive: ${error.message}`)
       }
     }
   }
@@ -76,32 +101,6 @@ export class GoogleStorageProvider implements IStorageProvider {
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Error uploading file to Google Drive: ${error.message}`)
-      }
-    }
-  }
-
-  async listFiles() {
-    const drive = google.drive({ version: 'v3', auth: this.authClient })
-
-    try {
-      const response = await drive.files.list({
-        pageSize: 100,
-        fields: 'nextPageToken, files(id, name)',
-        q: `'${process.env.APP_GOOGLE_DRIVE_FOLDER_ID}' in parents and trashed = false`,
-      })
-
-      const files = response.data.files
-      if (files?.length) {
-        console.log('Available files:')
-        files.forEach(file => {
-          console.log(`${file.name} (${file.id})`)
-        })
-      } else {
-        console.log('No files found.')
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        throw new Error(`Error listing files in Google Drive: ${error.message}`)
       }
     }
   }

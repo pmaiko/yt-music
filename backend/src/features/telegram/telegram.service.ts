@@ -1,8 +1,8 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import TelegramBot, { Message } from 'node-telegram-bot-api';
 import { ConfigService } from '@nestjs/config';
-import { YtMusicService } from '../features/music/services/yt-music.service';
-import { GoogleMusicQueryDto } from '../features/music/dto/google.music.query.dto';
+import { YtMusicService } from '../music/services/yt-music.service';
+import { GoogleMusicQueryDto } from '../music/dto/google.music.query.dto';
 
 @Injectable()
 export class TelegramService implements OnModuleInit {

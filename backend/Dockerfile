@@ -1,5 +1,5 @@
 # Stage 1: build
-FROM node:22-bullseye-slim AS builder
+FROM node:22.18.0-bullseye-slim AS builder
 
 ENV NODE_OPTIONS="--max-old-space-size=4096"
 
