@@ -2,11 +2,12 @@ import { Controller, Get, Post, Body, Param, HttpCode } from '@nestjs/common';
 import TelegramBot from 'node-telegram-bot-api';
 import { ConfigService } from '@nestjs/config';
 import { TelegramService } from './telegram.service';
+import { EnvironmentVariables } from '../../config/configuration';
 
 @Controller()
 export class TelegramController {
   constructor(
-    private readonly configService: ConfigService,
+    private readonly configService: ConfigService<EnvironmentVariables>,
     private readonly telegramService: TelegramService,
   ) {}
 
@@ -21,7 +22,7 @@ export class TelegramController {
     const bot = this.telegramService.getBot();
     try {
       await bot.setWebHook(
-        `${url}/bot${this.configService.get('telegramBotToken')}`,
+        `${url || this.configService.get('serverAddress')}/bot${this.configService.get('telegramBotToken')}`,
       );
       return this.getWebHookInfo();
     } catch (error: unknown) {
