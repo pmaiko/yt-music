@@ -1,11 +1,10 @@
 import { Module } from '@nestjs/common';
-import { GoogleDriveService } from './services/google-drive/google-drive.service';
-import { StorageController } from './storage.controller';
 import { HelperModule } from '../../common/services/helper.module';
+import { GoogleDriveModule } from '../google-drive/google-drive.module';
+import { StorageController } from './storage.controller';
 
 @Module({
-  imports: [HelperModule],
-  providers: [GoogleDriveService],
+  imports: [HelperModule, GoogleDriveModule],
   controllers: [StorageController],
 })
 export class StorageModule {}

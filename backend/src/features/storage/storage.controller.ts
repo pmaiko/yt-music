@@ -5,7 +5,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
-import { GoogleDriveService } from './services/google-drive/google-drive.service';
+import { GoogleDriveService } from '../google-drive/google-drive.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 @Controller('storage')

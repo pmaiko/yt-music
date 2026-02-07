@@ -9,6 +9,7 @@ import { MusicModule } from './features/music/music.module';
 import { CatsModule } from './features/cats/cats.module';
 import { TelegramModule } from './features/telegram/telegram.module';
 import { StorageModule } from './features/storage/storage.module';
+import { GoogleDriveModule } from './features/google-drive/google-drive.module';
 import configuration from './config/configuration';
 
 @Module({
@@ -24,6 +25,7 @@ import configuration from './config/configuration';
     CatsModule,
     TelegramModule,
     StorageModule,
+    GoogleDriveModule,
   ],
   controllers: [AppController],
   providers: [AppService],

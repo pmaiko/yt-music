@@ -3,9 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { drive_v3, google } from 'googleapis';
 import { JWT } from 'google-auth-library/build/src/auth/jwtclient';
 import { OAuth2Client } from 'google-auth-library/build/src/auth/oauth2client';
-import { EnvironmentVariables } from '../../../../config/configuration';
+import { EnvironmentVariables } from '../../config/configuration';
 import { Readable } from 'node:stream';
-import { HelperService } from '../../../../common/services/helper.service';
+import { HelperService } from '../../common/services/helper.service';
 import * as fs from 'node:fs';
 
 type AuthType = JWT | OAuth2Client;
