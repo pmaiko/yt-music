@@ -1,6 +1,7 @@
 COMPOSE_BASE = compose.yaml
 COMPOSE_DEV  = compose.dev.yaml
 COMPOSE_PROD = compose.prod.yaml
+NETWORK_NAME = shared_network
 
 .PHONY: dev prod down rebuild logs ps
 
