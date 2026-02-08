@@ -6,10 +6,11 @@ services:
       args:
         VITE_SERVER_PORT: ${FRONTEND_PORT}
         VITE_API_URL: ${FRONTEND_API_URL}
-    ports:
-      - "88:4000"
+    depends_on:
+      - backend
     networks:
-      - custom_network
+      - shared_network
+      - internal_network
     environment:
       VITE_SERVER_PORT: ${FRONTEND_PORT}
       VITE_API_URL: ${FRONTEND_API_URL}
@@ -19,7 +20,7 @@ services:
     build:
       context: ./backend
     networks:
-      - custom_network
+      - internal_network
     environment:
       SERVER_ADDRESS: ${SERVER_ADDRESS}
       PORT: ${BACKEND_PORT}

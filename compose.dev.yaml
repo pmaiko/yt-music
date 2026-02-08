@@ -4,13 +4,16 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+    depends_on:
+      - backend
     volumes:
       - ./frontend:/app
       - /app/node_modules
     ports:
       - "4000:4000"
     networks:
-      - custom_network
+      - shared_network
+      - internal_network
     environment:
       VITE_SERVER_PORT: ${FRONTEND_PORT}
       VITE_API_URL: ${FRONTEND_API_URL}
@@ -24,7 +27,7 @@ services:
       - ./backend:/app
       - /app/node_modules
     networks:
-      - custom_network
+      - internal_network
     environment:
       SERVER_ADDRESS: ${SERVER_ADDRESS}
       PORT: ${BACKEND_PORT}

@@ -6,8 +6,10 @@
 # :ro - read only
 
 networks:
-  custom_network:
-    name: "${PROJECT_PREFIX}-custom_network"
+  shared_network:
+    external: true
+  internal_network:
+    name: "${PROJECT_PREFIX}-internal_network"
     driver: bridge
 
 volumes:
